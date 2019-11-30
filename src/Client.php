@@ -87,7 +87,7 @@ class Client
      */
     public function authorizationUrl($state)
     {
-        return $this->provider->getAuthorizationUrl(compact($state));
+        return $this->provider->getAuthorizationUrl(['state' => $state]);
     }
 
     /**
