@@ -16,15 +16,15 @@ trait ManagesAccounts
     public function accounts()
     {
         $connection = $this->request(
-            "GET",
-            "https://app.vssps.visualstudio.com/_apis/ConnectionData",
+            'GET',
+            'https://app.vssps.visualstudio.com/_apis/ConnectionData',
             ['query' => ['api-version' => '5.0-preview'], 'debug' => true]
         );
 
         // Second, retrieve for the accounts for this member
         $accounts = $this->request(
-            "GET",
-            "https://app.vssps.visualstudio.com/_apis/accounts",
+            'GET',
+            'https://app.vssps.visualstudio.com/_apis/accounts',
             ['query' => ['memberId' => $connection['authenticatedUser']['id']]]
         );
 
