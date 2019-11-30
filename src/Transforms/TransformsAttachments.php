@@ -14,13 +14,13 @@ trait TransformsAttachments
     {
         return [
             [
-                "op" => "add",
-                "path"=> "/relations/-",
-                "value"=> [
-                    "rel" => "AttachedFile",
-                    "url" => $attachmentUrl,
-                    "attributes" => [
-                        "comment" => "",
+                'op' => 'add',
+                'path'=> '/relations/-',
+                'value'=> [
+                    'rel' => 'AttachedFile',
+                    'url' => $attachmentUrl,
+                    'attributes' => [
+                        'comment' => '',
                     ],
                 ],
             ],

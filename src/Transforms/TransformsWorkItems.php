@@ -15,22 +15,22 @@ trait TransformsWorkItems
     {
         return [
             [
-                "op" => "add",
-                "path" => "/fields/System.Title",
-                "from" => null,
-                "value" => $workItem->title,
+                'op' => 'add',
+                'path' => '/fields/System.Title',
+                'from' => null,
+                'value' => $workItem->title,
             ],
             [
-                "op" => "add",
-                "path" => "/fields/System.Description",
-                "from" => null,
-                "value" => $workItem->description,
+                'op' => 'add',
+                'path' => '/fields/System.Description',
+                'from' => null,
+                'value' => $workItem->description,
             ],
             [
-                "op" => "add",
-                "path" => "/fields/Microsoft.VSTS.TCM.ReproSteps",
-                "from" => null,
-                "value" => $workItem->stepsToReproduce,
+                'op' => 'add',
+                'path' => '/fields/Microsoft.VSTS.TCM.ReproSteps',
+                'from' => null,
+                'value' => $workItem->stepsToReproduce,
             ],
         ];
     }

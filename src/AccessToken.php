@@ -48,6 +48,7 @@ class AccessToken
             $token->getExpires()
         );
     }
+
     /**
      * Determines if the access token has expired.
      *
