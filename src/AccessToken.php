@@ -17,7 +17,7 @@ class AccessToken
     public $refreshToken;
 
     /**
-     * @var string
+     * @var int
      */
     public $expiresIn;
 
