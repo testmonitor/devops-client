@@ -6,6 +6,7 @@ use Mockery;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Resources\Project;
+use TestMonitor\DevOps\Exceptions\Exception;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
@@ -124,6 +125,47 @@ class ProjectsTest extends TestCase
         $response->shouldReceive('getBody')->andReturn(json_encode(['message' => 'invalid']));
 
         $this->expectException(ValidationException::class);
+
+        // When
+        $devops->projects();
+    }
+
+    /** @test */
+    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_a_getting_list_of_projects()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
+        $response->shouldReceive('getStatusCode')->andReturn(422);
+        $response->shouldReceive('getBody')->andReturn(json_encode(['errors' => ['invalid']]));
+
+        // When
+        try {
+            $devops->projects();
+        } catch (ValidationException $exception) {
+
+            // Then
+            $this->assertIsArray($exception->errors());
+            $this->assertEquals('invalid', $exception->errors()['errors'][0]);
+        }
+    }
+
+    /** @test */
+    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_a_getting_list_of_projects()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
+        $response->shouldReceive('getStatusCode')->andReturn(418);
+        $response->shouldReceive('getBody')->andReturn(json_encode(['rooibos' => 'anyone?']));
+
+        $this->expectException(Exception::class);
 
         // When
         $devops->projects();
