@@ -116,6 +116,10 @@ class Client
      */
     public function refreshToken(): AccessToken
     {
+        if (empty($this->token)) {
+            throw new UnauthorizedException();
+        }
+
         $token = $this->provider->getAccessToken('jwt_bearer', [
             'grant_type' => 'refresh_token',
             'assertion' => $this->token->refreshToken,
@@ -139,11 +143,16 @@ class Client
     /**
      * Returns an Guzzle client instance.
      *
-     *@throws TokenExpiredException
+     * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
+     * @throws TokenExpiredException
      * @return \GuzzleHttp\Client
      */
     protected function client()
     {
+        if (empty($this->token)) {
+            throw new UnauthorizedException();
+        }
+
         if ($this->token->expired()) {
             throw new TokenExpiredException();
         }

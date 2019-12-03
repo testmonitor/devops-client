@@ -7,6 +7,7 @@ use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\AccessToken;
 use TestMonitor\DevOps\Exceptions\TokenExpiredException;
+use TestMonitor\DevOps\Exceptions\UnauthorizedException;
 
 class OauthTest extends TestCase
 {
@@ -142,5 +143,29 @@ class OauthTest extends TestCase
         $this->assertFalse($token->expired());
         $this->assertEquals($token->accessToken, $newToken->accessToken);
         $this->assertEquals($token->refreshToken, $newToken->refreshToken);
+    }
+
+    /** @test */
+    public function it_should_not_refresh_a_token_without_a_refresh_token()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg');
+
+        $this->expectException(UnauthorizedException::class);
+
+        // When
+        $devops->refreshToken();
+    }
+
+    /** @test */
+    public function it_should_not_provide_a_client_without_a_token()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg');
+
+        $this->expectException(UnauthorizedException::class);
+
+        // When
+        $devops->accounts();
     }
 }
