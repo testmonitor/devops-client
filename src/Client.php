@@ -13,10 +13,10 @@ use TestMonitor\DevOps\Exceptions\UnauthorizedException;
 
 class Client
 {
-    use Actions\ManagesAttachments,
-        Actions\ManagesWorkItems,
+    use Actions\ManagesAccounts,
+        Actions\ManagesAttachments,
         Actions\ManagesProjects,
-        Actions\ManagesAccounts,
+        Actions\ManagesWorkItems,
         Actions\ManagesWorkItemTypes;
 
     /**
