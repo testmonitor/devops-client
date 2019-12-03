@@ -189,6 +189,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
      * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
+     * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
      * @return mixed
      */
@@ -207,6 +208,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
      * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
+     * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
      * @return mixed
      */
@@ -225,6 +227,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
      * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
+     * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
      * @return mixed
      */
@@ -244,6 +247,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
      * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
+     * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
      * @return mixed
      */

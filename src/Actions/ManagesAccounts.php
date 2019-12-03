@@ -18,7 +18,7 @@ trait ManagesAccounts
         $connection = $this->request(
             'GET',
             'https://app.vssps.visualstudio.com/_apis/ConnectionData',
-            ['query' => ['api-version' => '5.0-preview'], 'debug' => true]
+            ['query' => ['api-version' => '5.0-preview']]
         );
 
         // Second, retrieve for the accounts for this member
