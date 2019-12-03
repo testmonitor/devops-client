@@ -33,6 +33,9 @@ trait TransformsAttachments
      */
     protected function fromDevOpsAttachment(array $attachment): Attachment
     {
-        return new Attachment($attachment['url'], $attachment['id']);
+        return new Attachment([
+            'id' => $attachment['id'],
+            'url' => $attachment['url'],
+        ]);
     }
 }

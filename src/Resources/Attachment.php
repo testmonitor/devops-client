@@ -21,12 +21,11 @@ class Attachment extends Resource
     /**
      * Create a new resource instance.
      *
-     * @param string $url
-     * @param string|null $id
+     * @param array $attributes
      */
-    public function __construct(string $url, ?string $id)
+    public function __construct(array $attributes)
     {
-        $this->url = $url;
-        $this->id = $id;
+        $this->id = $attributes['id'] ?? null;
+        $this->url = $attributes['url'];
     }
 }

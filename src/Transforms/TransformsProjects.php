@@ -13,9 +13,9 @@ trait TransformsProjects
      */
     protected function fromDevOpsProject(array $project): Project
     {
-        return new Project(
-            $project['id'],
-            $project['name']
-        );
+        return new Project([
+            'id' => $project['id'],
+            'name' => $project['name'],
+        ]);
     }
 }

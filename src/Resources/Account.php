@@ -21,12 +21,11 @@ class Account extends Resource
     /**
      * Create a new resource instance.
      *
-     * @param string $id
-     * @param string $name
+     * @param array $attributes
      */
-    public function __construct(string $id, string $name)
+    public function __construct(array $attributes)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->id = $attributes['id'];
+        $this->name = $attributes['name'];
     }
 }

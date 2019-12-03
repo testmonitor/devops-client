@@ -42,12 +42,12 @@ trait TransformsWorkItems
      */
     protected function fromDevOpsWorkItem(array $workItem): WorkItem
     {
-        return new WorkItem(
-            $workItem['fields']['System.Title'],
-            $workItem['fields']['System.Description'],
-            $workItem['fields']['System.WorkItemType'],
-            $workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'] ?? '',
-            $workItem['id'] ?? ''
-        );
+        return new WorkItem([
+            'id' => $workItem['id'] ?? '',
+            'title' => $workItem['fields']['System.Title'],
+            'description' => $workItem['fields']['System.Description'] ?? '',
+            'workItemType' => $workItem['fields']['System.WorkItemType'],
+            'stepsToReproduce' => $workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'] ?? '',
+        ]);
     }
 }

@@ -134,12 +134,12 @@ class WorkItemsTest extends TestCase
         $response->shouldReceive('getBody')->andReturn(json_encode($this->workItem));
 
         // When
-        $workItem = $devops->createWorkItem(new WorkItem(
-            $this->workItem['fields']['System.Title'],
-            $this->workItem['fields']['System.Description'],
-            $this->workItem['fields']['System.WorkItemType'],
-            $this->workItem['fields']['Microsoft.VSTS.TCM.ReproSteps']
-        ), $this->project['id']);
+        $workItem = $devops->createWorkItem(new WorkItem([
+            'title' => $this->workItem['fields']['System.Title'],
+            'description' => $this->workItem['fields']['System.Description'],
+            'workItemType' => $this->workItem['fields']['System.WorkItemType'],
+            'stepsToReproduce' => $this->workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'],
+        ]), $this->project['id']);
 
         // Then
         $this->assertInstanceOf(WorkItem::class, $workItem);
@@ -161,11 +161,11 @@ class WorkItemsTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->createWorkItem(new WorkItem(
-            $this->workItem['fields']['System.Title'],
-            $this->workItem['fields']['System.Description'],
-            $this->workItem['fields']['System.WorkItemType'],
-            $this->workItem['fields']['Microsoft.VSTS.TCM.ReproSteps']
-        ), 'bogus');
+        $devops->createWorkItem(new WorkItem([
+            'title' => $this->workItem['fields']['System.Title'],
+            'description' => $this->workItem['fields']['System.Description'],
+            'workItemType' => $this->workItem['fields']['System.WorkItemType'],
+            'stepsToReproduce' => $this->workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'],
+        ]), 'bogus');
     }
 }

@@ -12,9 +12,9 @@ trait TransformsAccounts
      */
     protected function fromDevOpsAccount(array $account): Account
     {
-        return new Account(
-            $account['AccountId'],
-            $account['AccountName']
-        );
+        return new Account([
+            'id' => $account['AccountId'],
+            'name' => $account['AccountName'],
+        ]);
     }
 }

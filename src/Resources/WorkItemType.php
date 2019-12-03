@@ -21,12 +21,11 @@ class WorkItemType extends Resource
     /**
      * Create a new resource instance.
      *
-     * @param string $name
-     * @param string $description
+     * @param array $attributes
      */
-    public function __construct(string $name, string $description)
+    public function __construct(array $attributes)
     {
-        $this->name = $name;
-        $this->description = $description;
+        $this->name = $attributes['name'];
+        $this->description = $attributes['description'];
     }
 }

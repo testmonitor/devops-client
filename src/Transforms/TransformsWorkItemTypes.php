@@ -12,9 +12,9 @@ trait TransformsWorkItemTypes
      */
     protected function fromDevOpsWorkItemType(array $workItemType): WorkItemType
     {
-        return new WorkItemType(
-            $workItemType['name'],
-            $workItemType['description']
-        );
+        return new WorkItemType([
+            'name' => $workItemType['name'],
+            'description' => $workItemType['description'],
+        ]);
     }
 }

@@ -103,12 +103,12 @@ $accounts = $devops->accounts();
 Or creating a work item, for example (using a work item type 'Bug' and example project with id 12345):
 
 ```php
-$workItem = $devops->createWorkItem(new \TestMonitor\DevOps\Resources\WorkItem(
-    'Summary of the task',
-    'Some description',
-    'Bug',
-    'Repro steps'
-), '12345');
+$workItem = $devops->createWorkItem(new \TestMonitor\DevOps\Resources\WorkItem([
+    'title' => 'Summary of the item',
+    'description' => 'Some description',
+    'workItemType' => 'Bug',
+    'stepsToReproduce' => 'Repro steps',
+]), '12345');
 ```
 
 ## Tests
