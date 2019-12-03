@@ -50,9 +50,7 @@ $oauth = [
     'redirectUrl' => 'https://redirect.myapp.com/',
 ];
 
-$organization = 'MyOrg';
-
-$devops = new \TestMonitor\DevOps\Client($oauth, $organization, new \TestMonitor\DevOps\Token());
+$devops = new \TestMonitor\DevOps\Client($oauth);
 
 header('Location: ' . $devops->authorizationUrl());
 exit();
@@ -66,11 +64,9 @@ $oauth = [
     'clientId' => '12345',
     'clientSecret' => 'abcdef',
     'redirectUrl' => 'https://redirect.myapp.com/',
-],
+];
 
-$organization = 'MyOrg';
-
-$devops = new \TestMonitor\DevOps\Client($oauth, $organization, new \TestMonitor\DevOps\Token());
+$devops = new \TestMonitor\DevOps\Client($oauth);
 
 $token = $devops->fetchToken($_REQUEST['code']);
 ```
@@ -80,7 +76,7 @@ After that, you'll have to refresh the token to regain access:
 
 ```php
 $oauth = ['clientId' => '12345', 'clientSecret' => 'abcdef', 'redirectUrl' => 'https://redirect.myapp.com/'];
-$token = new \TestMonitor\DevOps\Token('eyJ0...', '0/34ccc...', 1574601877); // the token you got last time
+$token = new \TestMonitor\DevOps\AccessToken('eyJ0...', '0/34ccc...', 1574601877); // the token you got last time
 $organization = 'MyOrg';
 
 $devops = new \TestMonitor\DevOps\Client($oauth, $organization, $token);

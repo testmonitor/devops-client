@@ -59,7 +59,7 @@ class Client
      */
     public function __construct(
         array $credentials,
-        string $organization,
+        string $organization = '',
         AccessToken $token = null,
         VSTSProvider $provider = null
     ) {
