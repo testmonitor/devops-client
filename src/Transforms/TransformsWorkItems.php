@@ -48,6 +48,7 @@ trait TransformsWorkItems
             'description' => $workItem['fields']['System.Description'] ?? '',
             'workItemType' => $workItem['fields']['System.WorkItemType'],
             'stepsToReproduce' => $workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'] ?? '',
+            'link' => $workItem['_links']['html']['href'] ?? '',
         ]);
     }
 }

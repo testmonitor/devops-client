@@ -36,6 +36,11 @@ class WorkItemsTest extends TestCase
                 'System.WorkItemType' => 'Bug',
                 'Microsoft.VSTS.TCM.ReproSteps' => 'Repro',
             ],
+            '_links' => [
+                'html' => [
+                    'href' => 'https://devops.link',
+                ],
+            ],
         ];
     }
 
