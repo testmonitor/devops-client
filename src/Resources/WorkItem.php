@@ -40,11 +40,11 @@ class WorkItem extends Resource
     public $stepsToReproduce;
 
     /**
-     * The link for the work item.
+     * The url for the work item.
      *
      * @var string
      */
-    public $link;
+    public $url;
 
     /**
      * Create a new resource instance.
@@ -58,6 +58,6 @@ class WorkItem extends Resource
         $this->description = $attributes['description'] ?? '';
         $this->workItemType = $attributes['workItemType'];
         $this->stepsToReproduce = $attributes['stepsToReproduce'] ?? '';
-        $this->link = $attributes['link'] ?? '';
+        $this->url = $attributes['url'] ?? '';
     }
 }
