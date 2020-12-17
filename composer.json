@@ -27,7 +27,7 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^6.4",
+        "guzzlehttp/guzzle": "^6.4|^7.0",
         "testmonitor/oauth2-vsts": "^2.0"
     },
     "require-dev": {
