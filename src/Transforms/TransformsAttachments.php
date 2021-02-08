@@ -2,6 +2,7 @@
 
 namespace TestMonitor\DevOps\Transforms;
 
+use TestMonitor\DevOps\Validator;
 use TestMonitor\DevOps\Resources\Attachment;
 
 trait TransformsAttachments
@@ -29,10 +30,14 @@ trait TransformsAttachments
 
     /**
      * @param array $attachment
+     *
+     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      * @return \TestMonitor\DevOps\Resources\Attachment
      */
     protected function fromDevOpsAttachment(array $attachment): Attachment
     {
+        Validator::keysExists($attachment, ['id', 'url']);
+
         return new Attachment([
             'id' => $attachment['id'],
             'url' => $attachment['url'],

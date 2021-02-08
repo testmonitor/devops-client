@@ -12,13 +12,12 @@ trait ManagesProjects
      * Get a list of of projects.
      *
      * @return \TestMonitor\DevOps\Resources\Project[]
+     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     public function projects()
     {
         $response = $this->get('_apis/projects');
 
-        return array_map(function ($project) {
-            return $this->fromDevOpsProject($project);
-        }, $response['value']);
+        return $this->fromDevOpsProjects($response['value']);
     }
 }

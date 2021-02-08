@@ -16,11 +16,13 @@ trait ManagesAttachments
      * @param string $workItemId
      *
      * @param string $projectId
+     *
      * @return \TestMonitor\DevOps\Resources\Attachment
+     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     public function addAttachment(string $path, string $workItemId, string $projectId): Attachment
     {
-        // First, upload the file...
+        // First, upload the file
         $response = $this->post(
             "{$projectId}/_apis/wit/attachments",
             [
@@ -30,7 +32,7 @@ trait ManagesAttachments
             ]
         );
 
-        // ...then, attach it to the work item
+        // Second, attach it to the work item
         $this->patch(
             "{$projectId}/_apis/wit/workitems/{$workItemId}",
             [
