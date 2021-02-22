@@ -13,8 +13,8 @@ trait ManagesWorkItemTypes
      *
      * @param string $projectId
      *
-     * @return \TestMonitor\DevOps\Resources\WorkItemType[]
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     * @return \TestMonitor\DevOps\Resources\WorkItemType[]
      */
     public function workItemTypes($projectId)
     {

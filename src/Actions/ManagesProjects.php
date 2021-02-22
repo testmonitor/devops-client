@@ -11,8 +11,8 @@ trait ManagesProjects
     /**
      * Get a list of of projects.
      *
-     * @return \TestMonitor\DevOps\Resources\Project[]
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     * @return \TestMonitor\DevOps\Resources\Project[]
      */
     public function projects()
     {

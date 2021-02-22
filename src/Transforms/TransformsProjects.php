@@ -10,8 +10,8 @@ trait TransformsProjects
     /**
      * @param array $projects
      *
-     * @return \TestMonitor\DevOps\Resources\Project[]
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     * @return \TestMonitor\DevOps\Resources\Project[]
      */
     protected function fromDevOpsProjects($projects): array
     {

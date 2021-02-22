@@ -26,8 +26,8 @@ trait TransformsWorkItemTypes
     /**
      * @param $workItemTypes
      *
-     * @return array
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     * @return array
      */
     protected function fromDevOpsWorkItemTypes($workItemTypes): array
     {
