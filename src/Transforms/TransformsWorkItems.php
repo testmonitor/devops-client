@@ -2,6 +2,7 @@
 
 namespace TestMonitor\DevOps\Transforms;
 
+use TestMonitor\DevOps\Validator;
 use TestMonitor\DevOps\Resources\WorkItem;
 
 trait TransformsWorkItems
@@ -38,10 +39,13 @@ trait TransformsWorkItems
     /**
      * @param array $workItem
      *
+     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      * @return \TestMonitor\DevOps\Resources\WorkItem
      */
     protected function fromDevOpsWorkItem(array $workItem): WorkItem
     {
+        Validator::keyExists($workItem, 'fields');
+
         return new WorkItem([
             'id' => $workItem['id'] ?? '',
             'title' => $workItem['fields']['System.Title'],

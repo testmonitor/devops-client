@@ -14,13 +14,12 @@ trait ManagesWorkItemTypes
      * @param string $projectId
      *
      * @return \TestMonitor\DevOps\Resources\WorkItemType[]
+     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     public function workItemTypes($projectId)
     {
         $response = $this->get("{$projectId}/_apis/wit/workitemtypes");
 
-        return array_map(function ($workItemType) {
-            return $this->fromDevOpsWorkItemType($workItemType);
-        }, $response['value']);
+        return $this->fromDevOpsWorkItemTypes($response['value']);
     }
 }

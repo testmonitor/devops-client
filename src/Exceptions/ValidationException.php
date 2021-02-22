@@ -9,7 +9,7 @@ class ValidationException extends Exception
      *
      * @var array
      */
-    public $errors;
+    protected $errors;
 
     /**
      * Create a new exception instance.

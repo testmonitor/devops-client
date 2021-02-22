@@ -42,7 +42,7 @@ class AccountsTest extends TestCase
 
         $response = Mockery::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getStatusCode')->andReturn(200);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['authenticatedUser' => ['id' => 1]]));
+        $response->shouldReceive('getBody')->andReturn(json_encode(['id' => 1]));
 
         $service->shouldReceive('request')->once()->andReturn($response);
 
