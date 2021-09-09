@@ -35,7 +35,7 @@
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.5.2",
-        "scrutinizer/ocular": "dev-master"
+        "scrutinizer/ocular": "^1.8.1"
     },
     "config": {
         "optimize-autoloader": true,
