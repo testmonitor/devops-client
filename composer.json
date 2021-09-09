@@ -25,7 +25,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.4|^7.0",
         "testmonitor/oauth2-vsts": "^2.0"

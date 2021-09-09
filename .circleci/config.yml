@@ -5,7 +5,7 @@ jobs:
         working_directory: ~/testmonitor/devops-client
 
         docker:
-            - image: circleci/php:7.4-browsers
+            - image: circleci/php:8.0-browsers
 
         steps:
             - run:
