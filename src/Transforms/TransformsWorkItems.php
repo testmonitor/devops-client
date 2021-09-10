@@ -9,7 +9,6 @@ trait TransformsWorkItems
 {
     /**
      * @param \TestMonitor\DevOps\Resources\WorkItem $workItem
-     *
      * @return array
      */
     protected function toDevOpsWorkItem(WorkItem $workItem): array
@@ -40,6 +39,7 @@ trait TransformsWorkItems
      * @param array $workItem
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\WorkItem
      */
     protected function fromDevOpsWorkItem(array $workItem): WorkItem

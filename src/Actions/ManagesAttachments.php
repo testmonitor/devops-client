@@ -14,10 +14,10 @@ trait ManagesAttachments
      *
      * @param string $path
      * @param string $workItemId
-     *
      * @param string $projectId
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Attachment
      */
     public function addAttachment(string $path, string $workItemId, string $projectId): Attachment

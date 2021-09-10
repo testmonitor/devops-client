@@ -11,6 +11,7 @@ trait TransformsProjects
      * @param array $projects
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Project[]
      */
     protected function fromDevOpsProjects($projects): array
@@ -26,6 +27,7 @@ trait TransformsProjects
      * @param array $project
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Project
      */
     protected function fromDevOpsProject($project): Project

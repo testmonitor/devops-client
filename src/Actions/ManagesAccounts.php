@@ -13,6 +13,7 @@ trait ManagesAccounts
      * Get a list of of accounts.
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Account[]
      */
     public function accounts()

@@ -11,6 +11,7 @@ trait TransformsAccounts
      * @param array $accounts
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Account[]
      */
     protected function fromDevOpsAccounts($accounts): array
@@ -26,6 +27,7 @@ trait TransformsAccounts
      * @param array $account
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Account
      */
     protected function fromDevOpsAccount($account): Account
