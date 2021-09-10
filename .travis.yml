@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 7.4
   - 8.0
 
 # This triggers builds to run on the new TravisCI infrastructure.
@@ -26,4 +25,4 @@ script:
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
