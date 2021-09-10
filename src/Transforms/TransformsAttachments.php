@@ -32,6 +32,7 @@ trait TransformsAttachments
      * @param array $attachment
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Attachment
      */
     protected function fromDevOpsAttachment(array $attachment): Attachment

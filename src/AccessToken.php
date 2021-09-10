@@ -37,7 +37,6 @@ class AccessToken
 
     /**
      * @param \League\OAuth2\Client\Token\AccessToken $token
-     *
      * @return \TestMonitor\DevOps\AccessToken
      */
     public static function fromDevOps(VSTSAccessToken $token)

@@ -94,7 +94,6 @@ class Client
      * Fetch the access and refresh token based on the authorization code.
      *
      * @param string $code
-     *
      * @return \TestMonitor\DevOps\AccessToken
      */
     public function fetchToken(string $code): AccessToken
@@ -112,6 +111,7 @@ class Client
      * Refresh the current access token.
      *
      * @throws \Exception
+     *
      * @return \TestMonitor\DevOps\AccessToken
      */
     public function refreshToken(): AccessToken
@@ -145,6 +145,7 @@ class Client
      *
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws TokenExpiredException
+     *
      * @return \GuzzleHttp\Client
      */
     protected function client()
@@ -183,14 +184,15 @@ class Client
      * Make a GET request to DevOps servers and return the response.
      *
      * @param string $uri
-     *
      * @param array $payload
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
      * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
+     *
      * @return mixed
      */
     protected function get($uri, array $payload = [])
@@ -210,6 +212,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
+     *
      * @return mixed
      */
     protected function post($uri, array $payload = [])
@@ -229,6 +232,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
+     *
      * @return mixed
      */
     protected function patch($uri, array $payload = [])
@@ -249,6 +253,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
+     *
      * @return mixed
      */
     protected function request($verb, $uri, array $payload = [])
@@ -275,6 +280,7 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
      * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
      * @throws \Exception
+     *
      * @return void
      */
     protected function handleRequestError(ResponseInterface $response)

@@ -12,6 +12,7 @@ trait ManagesProjects
      * Get a list of of projects.
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\Project[]
      */
     public function projects()

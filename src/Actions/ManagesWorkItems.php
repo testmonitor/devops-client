@@ -13,10 +13,10 @@ trait ManagesWorkItems
      * Get a single work item.
      *
      * @param string $id
-     *
      * @param string $projectId
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return \TestMonitor\DevOps\Resources\WorkItem
      */
     public function workitem(string $id, string $projectId): WorkItem
@@ -33,6 +33,7 @@ trait ManagesWorkItems
      * @param string $projectId
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
+     *
      * @return WorkItem
      */
     public function createWorkItem(WorkItem $workItem, string $projectId): WorkItem
