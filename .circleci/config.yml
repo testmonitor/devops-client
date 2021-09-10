@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-    browser-tools: circleci/browser-tools@1.1.3
-
 jobs:
     build:
         working_directory: ~/testmonitor/devops-client
@@ -14,9 +11,7 @@ jobs:
             - run:
                   name: Update Composer
                   command: sudo composer self-update
-
             - checkout
-
             - restore_cache:
                   keys:
                       - composer-v1-{{ checksum "composer.lock" }}
@@ -28,47 +23,56 @@ jobs:
                   key: composer-v1-{{ checksum "composer.lock" }}
                   paths:
                       - vendor
-            -   persist_to_workspace:
-                root: .
-                paths:
-                    - .
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
 
-        feature_test:
-            working_directory: ~/testmonitor/devops-client
+    code_analysis:
+        working_directory: ~/testmonitor/devops-client
 
-            docker:
-                -   image: cimg/php:8.0-node
+        docker:
+            - image: cimg/php:8.0-node
 
-            steps:
-                - attach_workspace:
-                      at: .
-                - run:
-                      name: PHP CS Fixer
-                      command: vendor/bin/php-cs-fixer fix --diff --dry-run --verbose
-                - run:
-                      name: PHPCS
-                      command: |
-                          mkdir -p ./logs/phpcs
-                          vendor/bin/phpcs --standard="PSR1,PSR2" -v --report=junit --report-file=logs/phpcs/junit.xml src/
+        steps:
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: PHP CS Fixer
+                  command: |
+                      mkdir -p ./logs/phpcsfixer
+                      vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --diff --dry-run --format=junit > logs/phpcsfixer/junit.xml
+            - run:
+                  name: PHPCS
+                  command: |
+                      mkdir -p ./logs/phpcs
+                      vendor/bin/phpcs --standard="PSR1,PSR2" -v --report=junit --report-file=logs/phpcs/junit.xml app/
 
-        code_analysis:
-            working_directory: ~/testmonitor/devops-client
+            - store_artifacts:
+                  path: ./logs/phpcsfixer
+                  destination: phpcsfixer
+            - store_artifacts:
+                  path: ./logs/phpcs
+                  destination: phpcs
 
-            docker:
-                -   image: cimg/php:8.0-node
+    unit_test:
+        working_directory: ~/testmonitor/devops-client
 
-            steps:
-                - attach_workspace:
-                      at: .
-                - run:
-                      name: Run Unit Tests
-                      command: |
-                          mkdir -p ./logs/phpunit
-                          vendor/bin/phpunit -d memory_limit=128M --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
+        docker:
+            - image: cimg/php:8.0-node
 
-                - store_artifacts:
-                      path: ./logs/phpunit
-                      destination: phpunit
+        steps:
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Run Unit Tests
+                  command: |
+                      mkdir -p ./logs/phpunit
+                      vendor/bin/phpunit -d memory_limit=1G --printer "\PHPUnit\TextUI\DefaultResultPrinter" --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
+
+            - store_artifacts:
+                  path: ./logs/phpunit
+                  destination: phpunit
 
 workflows:
     version: 2
@@ -78,6 +82,6 @@ workflows:
             - code_analysis:
                   requires:
                       - build
-            - feature_test:
+            - unit_test:
                   requires:
-                      - build
+                      - code_analysis
