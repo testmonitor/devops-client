@@ -24,5 +24,4 @@ script:
   - XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
   - vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
