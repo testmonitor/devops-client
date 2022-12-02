@@ -146,7 +146,6 @@ class ProjectsTest extends TestCase
         try {
             $devops->projects();
         } catch (ValidationException $exception) {
-
             // Then
             $this->assertIsArray($exception->errors());
             $this->assertEquals('invalid', $exception->errors()['errors'][0]);
