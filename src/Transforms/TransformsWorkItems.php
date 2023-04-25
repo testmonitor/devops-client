@@ -20,6 +20,14 @@ trait TransformsWorkItems
                 'from' => null,
                 'value' => $workItem->title,
             ],
+            ...($workItem->team ? [
+                [
+                    'op' => 'add',
+                    'path' => '/fields/System.AreaPath',
+                    'from' => null,
+                    'value' => $workItem->areaPath(),
+                ]
+            ] : []),
             [
                 'op' => 'add',
                 'path' => '/fields/System.Description',
@@ -48,6 +56,8 @@ trait TransformsWorkItems
 
         return new WorkItem([
             'id' => $workItem['id'] ?? '',
+            'project' => $workItem['fields']['System.TeamProject'],
+            'path' => $workItem['fields']['System.AreaPath'],
             'title' => $workItem['fields']['System.Title'],
             'description' => $workItem['fields']['System.Description'] ?? '',
             'workItemType' => $workItem['fields']['System.WorkItemType'],
