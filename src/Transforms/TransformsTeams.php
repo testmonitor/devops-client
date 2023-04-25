@@ -3,7 +3,6 @@
 namespace TestMonitor\DevOps\Transforms;
 
 use TestMonitor\DevOps\Validator;
-use TestMonitor\DevOps\Resources\Project;
 use TestMonitor\DevOps\Resources\Team;
 
 trait TransformsTeams

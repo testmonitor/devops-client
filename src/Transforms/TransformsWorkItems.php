@@ -26,7 +26,7 @@ trait TransformsWorkItems
                     'path' => '/fields/System.AreaPath',
                     'from' => null,
                     'value' => $workItem->areaPath(),
-                ]
+                ],
             ] : []),
             [
                 'op' => 'add',
