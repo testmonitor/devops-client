@@ -33,6 +33,8 @@ class WorkItemsTest extends TestCase
             'fields' => [
                 'System.Title' => 'Title',
                 'System.Description' => 'Description',
+                'System.TeamProject' => 'Project',
+                'System.AreaPath' => 'Project',
                 'System.WorkItemType' => 'Bug',
                 'Microsoft.VSTS.TCM.ReproSteps' => 'Repro',
             ],
