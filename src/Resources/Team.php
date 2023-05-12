@@ -26,6 +26,13 @@ class Team extends Resource
     public $description;
 
     /**
+     * The area path for the team.
+     *
+     * @var string
+     */
+    public $path;
+
+    /**
      * Create a new resource instance.
      *
      * @param array $attributes
@@ -35,5 +42,6 @@ class Team extends Resource
         $this->id = $attributes['id'];
         $this->name = $attributes['name'];
         $this->description = $attributes['description'] ?? '';
+        $this->path = $attributes['path'];
     }
 }

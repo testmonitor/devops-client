@@ -21,6 +21,6 @@ trait ManagesTeams
     {
         $response = $this->get("_apis/projects/{$projectId}/teams");
 
-        return $this->fromDevOpsTeams($response['value']);
+        return $this->fromDevOpsTeams($response['value'], $projectId);
     }
 }

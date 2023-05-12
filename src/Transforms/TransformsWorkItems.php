@@ -11,7 +11,7 @@ trait TransformsWorkItems
      * @param \TestMonitor\DevOps\Resources\WorkItem $workItem
      * @return array
      */
-    protected function toDevOpsWorkItem(WorkItem $workItem): array
+    protected function toDevOpsWorkItem(WorkItem $workItem, string $projectId): array
     {
         return [
             [
@@ -20,14 +20,6 @@ trait TransformsWorkItems
                 'from' => null,
                 'value' => $workItem->title,
             ],
-            ...($workItem->team ? [
-                [
-                    'op' => 'add',
-                    'path' => '/fields/System.AreaPath',
-                    'from' => null,
-                    'value' => $workItem->areaPath(),
-                ],
-            ] : []),
             [
                 'op' => 'add',
                 'path' => '/fields/System.Description',
@@ -40,6 +32,14 @@ trait TransformsWorkItems
                 'from' => null,
                 'value' => $workItem->stepsToReproduce,
             ],
+            ...($workItem->path ? [
+                [
+                    'op' => 'add',
+                    'path' => '/fields/System.AreaPath',
+                    'from' => null,
+                    'value' => $workItem->path,
+                ],
+            ] : []),
         ];
     }
 
