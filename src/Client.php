@@ -16,6 +16,7 @@ class Client
     use Actions\ManagesAccounts,
         Actions\ManagesAttachments,
         Actions\ManagesProjects,
+        Actions\ManagesTeams,
         Actions\ManagesWorkItems,
         Actions\ManagesWorkItemTypes;
 

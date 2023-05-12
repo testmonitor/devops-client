@@ -3,6 +3,7 @@
 namespace TestMonitor\DevOps\Tests;
 
 use Mockery;
+use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Resources\Project;
@@ -41,11 +42,9 @@ class ProjectsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $response = Mockery::mock('Psr\Http\Message\ResponseInterface');
-        $response->shouldReceive('getStatusCode')->andReturn(200);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['value' => [$this->project]]));
-
-        $service->shouldReceive('request')->once()->andReturn($response);
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->project]])));
 
         // When
         $projects = $devops->projects();
@@ -66,9 +65,9 @@ class ProjectsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(400);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(400, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(FailedActionException::class);
 
@@ -84,9 +83,9 @@ class ProjectsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(404);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(404, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(NotFoundException::class);
 
@@ -102,9 +101,9 @@ class ProjectsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(401);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(401, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(UnauthorizedException::class);
 
@@ -120,9 +119,9 @@ class ProjectsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(422);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['message' => 'invalid']));
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['message' => 'invalid'])));
 
         $this->expectException(ValidationException::class);
 
@@ -138,9 +137,9 @@ class ProjectsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(422);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['errors' => ['invalid']]));
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['errors' => ['invalid']])));
 
         // When
         try {
@@ -160,9 +159,9 @@ class ProjectsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(418);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['rooibos' => 'anyone?']));
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(418, ['Content-Type' => 'application/json'], json_encode(['rooibos' => 'anyone?'])));
 
         $this->expectException(Exception::class);
 

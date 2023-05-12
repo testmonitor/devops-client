@@ -32,6 +32,14 @@ trait TransformsWorkItems
                 'from' => null,
                 'value' => $workItem->stepsToReproduce,
             ],
+            ...($workItem->path ? [
+                [
+                    'op' => 'add',
+                    'path' => '/fields/System.AreaPath',
+                    'from' => null,
+                    'value' => $workItem->path,
+                ],
+            ] : []),
         ];
     }
 
@@ -50,6 +58,7 @@ trait TransformsWorkItems
             'id' => $workItem['id'] ?? '',
             'title' => $workItem['fields']['System.Title'],
             'description' => $workItem['fields']['System.Description'] ?? '',
+            'path' => $workItem['fields']['System.AreaPath'] ?? '',
             'workItemType' => $workItem['fields']['System.WorkItemType'],
             'stepsToReproduce' => $workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'] ?? '',
             'url' => $workItem['_links']['html']['href'] ?? '',

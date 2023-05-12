@@ -3,6 +3,7 @@
 namespace TestMonitor\DevOps\Tests;
 
 use Mockery;
+use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Resources\Account;
@@ -40,17 +41,13 @@ class AccountsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $response = Mockery::mock('Psr\Http\Message\ResponseInterface');
-        $response->shouldReceive('getStatusCode')->andReturn(200);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['id' => 1]));
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['id' => 1])));
 
-        $service->shouldReceive('request')->once()->andReturn($response);
-
-        $response = Mockery::mock('Psr\Http\Message\ResponseInterface');
-        $response->shouldReceive('getStatusCode')->andReturn(200);
-        $response->shouldReceive('getBody')->andReturn(json_encode([$this->account]));
-
-        $service->shouldReceive('request')->once()->andReturn($response);
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode([$this->account])));
 
         // When
         $accounts = $devops->accounts();
@@ -71,9 +68,9 @@ class AccountsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(400);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(400, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(FailedActionException::class);
 
@@ -89,9 +86,9 @@ class AccountsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(404);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(404, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(NotFoundException::class);
 
@@ -107,9 +104,9 @@ class AccountsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(401);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(401, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(UnauthorizedException::class);
 
@@ -125,9 +122,9 @@ class AccountsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(422);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['message' => 'invalid']));
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['message' => 'invalid'])));
 
         $this->expectException(ValidationException::class);
 
