@@ -2,6 +2,7 @@
 
 namespace TestMonitor\DevOps\Tests;
 
+use GuzzleHttp\Psr7\Response;
 use Mockery;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
@@ -59,11 +60,9 @@ class WorkItemsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $response = Mockery::mock('Psr\Http\Message\ResponseInterface');
-        $response->shouldReceive('getStatusCode')->andReturn(200);
-        $response->shouldReceive('getBody')->andReturn(json_encode($this->workItem));
-
-        $service->shouldReceive('request')->once()->andReturn($response);
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->workItem)));
 
         // When
         $workItem = $devops->workitem($this->workItem['id'], $this->project['id']);
@@ -82,9 +81,9 @@ class WorkItemsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(400);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(400, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(FailedActionException::class);
 
@@ -100,9 +99,9 @@ class WorkItemsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(404);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(404, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(NotFoundException::class);
 
@@ -118,9 +117,9 @@ class WorkItemsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(401);
-        $response->shouldReceive('getBody')->andReturnNull();
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(401, ['Content-Type' => 'application/json'], null));
 
         $this->expectException(UnauthorizedException::class);
 
@@ -136,9 +135,9 @@ class WorkItemsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(201);
-        $response->shouldReceive('getBody')->andReturn(json_encode($this->workItem));
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(201, ['Content-Type' => 'application/json'], json_encode($this->workItem)));
 
         // When
         $workItem = $devops->createWorkItem(new WorkItem([
@@ -161,9 +160,9 @@ class WorkItemsTest extends TestCase
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        $service->shouldReceive('request')->once()->andReturn($response = Mockery::mock('Psr\Http\Message\ResponseInterface'));
-        $response->shouldReceive('getStatusCode')->andReturn(422);
-        $response->shouldReceive('getBody')->andReturn(json_encode(['message' => 'invalid']));
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['message' => 'invalid'])));
 
         $this->expectException(ValidationException::class);
 

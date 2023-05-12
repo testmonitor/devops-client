@@ -42,7 +42,7 @@ trait ManagesWorkItems
             "{$projectId}/_apis/wit/workitems/\${$workItem->workItemType}",
             [
                 'headers' => ['Content-Type' => 'application/json-patch+json'],
-                'json' => $this->toDevOpsWorkItem($workItem, $projectId),
+                'json' => $this->toDevOpsWorkItem($workItem),
             ]
         );
 

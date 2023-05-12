@@ -9,9 +9,10 @@ trait TransformsWorkItems
 {
     /**
      * @param \TestMonitor\DevOps\Resources\WorkItem $workItem
+     *
      * @return array
      */
-    protected function toDevOpsWorkItem(WorkItem $workItem, string $projectId): array
+    protected function toDevOpsWorkItem(WorkItem $workItem): array
     {
         return [
             [
@@ -56,7 +57,6 @@ trait TransformsWorkItems
 
         return new WorkItem([
             'id' => $workItem['id'] ?? '',
-            'project' => $workItem['fields']['System.TeamProject'],
             'path' => $workItem['fields']['System.AreaPath'],
             'title' => $workItem['fields']['System.Title'],
             'description' => $workItem['fields']['System.Description'] ?? '',
