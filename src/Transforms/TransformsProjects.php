@@ -37,6 +37,7 @@ trait TransformsProjects
         return new Project([
             'id' => $project['id'],
             'name' => $project['name'],
+            'defaultTeamId' => $project['defaultTeam']['id'] ?? '',
         ]);
     }
 }

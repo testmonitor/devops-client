@@ -19,6 +19,13 @@ class Project extends Resource
     public $name;
 
     /**
+     * The default team ID for the project.
+     *
+     * @var string
+     */
+    public $defaultTeamId;
+
+    /**
      * Create a new resource instance.
      *
      * @param array $attributes
@@ -27,5 +34,7 @@ class Project extends Resource
     {
         $this->id = $attributes['id'];
         $this->name = $attributes['name'];
+
+        $this->defaultTeamId = $attributes['defaultTeamId'] ?? '';
     }
 }
