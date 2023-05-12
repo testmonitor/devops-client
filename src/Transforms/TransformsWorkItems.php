@@ -56,9 +56,9 @@ trait TransformsWorkItems
 
         return new WorkItem([
             'id' => $workItem['id'] ?? '',
-            'path' => $workItem['fields']['System.AreaPath'],
             'title' => $workItem['fields']['System.Title'],
             'description' => $workItem['fields']['System.Description'] ?? '',
+            'path' => $workItem['fields']['System.AreaPath'] ?? '',
             'workItemType' => $workItem['fields']['System.WorkItemType'],
             'stepsToReproduce' => $workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'] ?? '',
             'url' => $workItem['_links']['html']['href'] ?? '',
