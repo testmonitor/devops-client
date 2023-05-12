@@ -2,8 +2,8 @@
 
 namespace TestMonitor\DevOps\Tests;
 
-use GuzzleHttp\Psr7\Response;
 use Mockery;
+use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Resources\WorkItem;

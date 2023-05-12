@@ -9,7 +9,6 @@ trait TransformsWorkItems
 {
     /**
      * @param \TestMonitor\DevOps\Resources\WorkItem $workItem
-     *
      * @return array
      */
     protected function toDevOpsWorkItem(WorkItem $workItem): array
