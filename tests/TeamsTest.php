@@ -26,7 +26,7 @@ class TeamsTest extends TestCase
         $this->token = Mockery::mock('\TestMonitor\DevOps\AccessToken');
         $this->token->shouldReceive('expired')->andReturnFalse();
 
-        $this->team = ['id' => '1', 'name' => 'SuperTeam', 'description' => 'We are famous!'];
+        $this->team = ['id' => '1', 'name' => 'SuperTeam', 'description' => 'We are famous!', 'path' => 'super-path'];
     }
 
     public function tearDown(): void
