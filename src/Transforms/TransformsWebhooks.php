@@ -35,9 +35,9 @@ trait TransformsWebhooks
     /**
      * @param array $webhooks
      *
+     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      * @return \TestMonitor\DevOps\Resources\Webhook[]
      *
-     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     protected function fromDevOpsWebhooks($webhooks): array
     {
@@ -51,9 +51,9 @@ trait TransformsWebhooks
     /**
      * @param array $webhook
      *
+     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      * @return \TestMonitor\DevOps\Resources\Webhook
      *
-     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     protected function fromDevOpsWebhook($webhook): Webhook
     {

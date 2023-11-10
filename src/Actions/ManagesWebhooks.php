@@ -41,7 +41,8 @@ trait ManagesWebhooks
      */
     public function createWebhook(Webhook $webhook): Webhook
     {
-        $response = $this->post('_apis/hooks/subscriptions',
+        $response = $this->post(
+            '_apis/hooks/subscriptions',
             [
                 'json' => $this->toDevOpsWebhook($webhook),
             ]

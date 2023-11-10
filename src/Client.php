@@ -248,14 +248,14 @@ class Client
      * @param string $uri
      * @param array $payload
      *
-     * @return mixed
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
      * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
+     * @return mixed
+     *
      */
     protected function delete($uri, array $payload = [])
     {
