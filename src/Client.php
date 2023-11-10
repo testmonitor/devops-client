@@ -254,8 +254,8 @@ class Client
      * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      * @throws \TestMonitor\DevOps\Exceptions\ValidationException
-     * @return mixed
      *
+     * @return mixed
      */
     protected function delete($uri, array $payload = [])
     {

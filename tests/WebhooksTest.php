@@ -31,19 +31,19 @@ class WebhooksTest extends TestCase
 
         $this->webhook = [
             'id' => 1,
-            "publisherId" => "tfs",
-            "eventType" => 'workitem.updated',
-            "resourceVersion" => "1.0-preview.1",
-            "consumerId" => "webHooks",
-            "consumerActionId" => "httpRequest",
-            "actionDescription" => 'Webhook',
-            "publisherInputs" => [
-                "projectId" => '12345',
+            'publisherId' => 'tfs',
+            'eventType' => 'workitem.updated',
+            'resourceVersion' => '1.0-preview.1',
+            'consumerId' => 'webHooks',
+            'consumerActionId' => 'httpRequest',
+            'actionDescription' => 'Webhook',
+            'publisherInputs' => [
+                'projectId' => '12345',
             ],
-            "consumerInputs" => [
+            'consumerInputs' => [
                 'basicAuthUsername' => 'username',
                 'basicAuthPassword' => '****',
-                "url" => 'https://hooks.testmonitor.com/',
+                'url' => 'https://hooks.testmonitor.com/',
             ],
         ];
     }

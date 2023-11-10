@@ -9,25 +9,24 @@ trait TransformsWebhooks
 {
     /**
      * @param \TestMonitor\DevOps\Resources\Webhook $webhook
-     *
      * @return array
      */
     protected function toDevOpsWebhook(Webhook $webhook): array
     {
         return [
-            "publisherId" => "tfs",
-            "eventType" => $webhook->eventType,
-            "resourceVersion" => "1.0-preview.1",
-            "consumerId" => "webHooks",
-            "consumerActionId" => "httpRequest",
-            "actionDescription" => $webhook->description,
-            "publisherInputs" => [
-                "projectId" => $webhook->projectId,
+            'publisherId' => 'tfs',
+            'eventType' => $webhook->eventType,
+            'resourceVersion' => '1.0-preview.1',
+            'consumerId' => 'webHooks',
+            'consumerActionId' => 'httpRequest',
+            'actionDescription' => $webhook->description,
+            'publisherInputs' => [
+                'projectId' => $webhook->projectId,
             ],
-            "consumerInputs" => [
+            'consumerInputs' => [
                 'basicAuthUsername' => $webhook->username,
                 'basicAuthPassword' => $webhook->password,
-                "url" => $webhook->url,
+                'url' => $webhook->url,
             ],
         ];
     }
@@ -36,8 +35,8 @@ trait TransformsWebhooks
      * @param array $webhooks
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
-     * @return \TestMonitor\DevOps\Resources\Webhook[]
      *
+     * @return \TestMonitor\DevOps\Resources\Webhook[]
      */
     protected function fromDevOpsWebhooks($webhooks): array
     {
@@ -52,8 +51,8 @@ trait TransformsWebhooks
      * @param array $webhook
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
-     * @return \TestMonitor\DevOps\Resources\Webhook
      *
+     * @return \TestMonitor\DevOps\Resources\Webhook
      */
     protected function fromDevOpsWebhook($webhook): Webhook
     {

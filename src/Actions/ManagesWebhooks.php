@@ -20,7 +20,7 @@ trait ManagesWebhooks
      */
     public function webhooks($eventType = '')
     {
-        $response = $this->get("_apis/hooks/subscriptions", [
+        $response = $this->get('_apis/hooks/subscriptions', [
             'query' => array_filter([
                 'eventType' => $eventType,
                 'consumerId' => 'webHooks',
