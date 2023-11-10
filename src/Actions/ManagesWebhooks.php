@@ -52,7 +52,7 @@ trait ManagesWebhooks
     }
 
     /**
-     * Deletes a webhook.
+     * Delete a webhook.
      *
      * @param int $id
      *
