@@ -75,7 +75,7 @@ class WorkItemTypesTest extends TestCase
         $this->expectException(FailedActionException::class);
 
         // When
-        $devops->projects();
+        $devops->workItemTypes('12345');
     }
 
     /** @test */
@@ -93,7 +93,7 @@ class WorkItemTypesTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         // When
-        $devops->projects();
+        $devops->workItemTypes('12345');
     }
 
     /** @test */
@@ -111,7 +111,7 @@ class WorkItemTypesTest extends TestCase
         $this->expectException(UnauthorizedException::class);
 
         // When
-        $devops->projects();
+        $devops->workItemTypes('12345');
     }
 
     /** @test */
@@ -129,6 +129,6 @@ class WorkItemTypesTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->projects();
+        $devops->workItemTypes('12345');
     }
 }
