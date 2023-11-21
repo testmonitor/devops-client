@@ -49,8 +49,35 @@ class WorkItemTypesTest extends TestCase
             ->once()
             ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->workItemType]])));
 
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => []])));
+
         // When
         $workItemTypes = $devops->workItemTypes($this->project['id']);
+
+        // Then
+        $this->assertIsArray($workItemTypes);
+        $this->assertCount(1, $workItemTypes);
+        $this->assertInstanceOf(WorkItemType::class, $workItemTypes[0]);
+        $this->assertEquals($this->workItemType['name'], $workItemTypes[0]->name);
+        $this->assertIsArray($workItemTypes[0]->toArray());
+    }
+
+    /** @test */
+    public function it_should_return_a_list_of_work_item_types_with_an_empty_exception_list()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->workItemType]])));
+
+        // When
+        $workItemTypes = $devops->workItemTypes($this->project['id'], []);
 
         // Then
         $this->assertIsArray($workItemTypes);

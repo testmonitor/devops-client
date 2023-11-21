@@ -35,6 +35,81 @@ class ProjectsTest extends TestCase
     }
 
     /** @test */
+    public function it_should_return_a_project()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->project)));
+
+        // When
+        $project = $devops->project($this->project['id']);
+
+        // Then
+        $this->assertInstanceOf(Project::class, $project);
+        $this->assertEquals($this->project['id'], $project->id);
+        $this->assertIsArray($project->toArray());
+    }
+
+    /** @test */
+    public function it_should_throw_an_failed_action_exception_when_client_receives_bad_request_while_getting_a_project()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(400, ['Content-Type' => 'application/json'], null));
+
+        $this->expectException(FailedActionException::class);
+
+        // When
+        $devops->project($this->project['id']);
+    }
+
+    /** @test */
+    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_project()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(404, ['Content-Type' => 'application/json'], null));
+
+        $this->expectException(NotFoundException::class);
+
+        // When
+        $devops->project($this->project['id']);
+    }
+
+    /** @test */
+    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_project()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(401, ['Content-Type' => 'application/json'], null));
+
+        $this->expectException(UnauthorizedException::class);
+
+        // When
+        $devops->project($this->project['id']);
+    }
+
+    /** @test */
     public function it_should_return_a_list_of_projects()
     {
         // Given
