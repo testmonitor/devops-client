@@ -42,7 +42,7 @@ class WIQL
     /**
      * Set query source (WorkItems, workItemLinks).
      *
-     * @param array $fields
+     * @param string $source
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function from(string $source): self

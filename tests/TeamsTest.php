@@ -112,7 +112,7 @@ class TeamsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_list_of_teams()
+    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_teams()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -130,7 +130,7 @@ class TeamsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_list_of_teams()
+    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_teams()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -152,7 +152,7 @@ class TeamsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_list_of_teams()
+    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_teams()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
