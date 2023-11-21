@@ -77,7 +77,7 @@ class WebhooksTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_an_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_webhooks()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_webhooks()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -131,7 +131,7 @@ class WebhooksTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_a_getting_list_of_webhooks()
+    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_list_of_webhooks()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);

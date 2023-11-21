@@ -78,7 +78,7 @@ class WorkItemsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_an_failed_action_exception_when_client_receives_bad_request_while_getting_a_work_item()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_work_item()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -212,7 +212,7 @@ class WorkItemsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_an_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_work_items()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_work_items()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -350,11 +350,8 @@ class WorkItemsTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->createWorkItem(new WorkItem([
-            'title' => $this->workItem['fields']['System.Title'],
-            'description' => $this->workItem['fields']['System.Description'],
-            'workItemType' => $this->workItem['fields']['System.WorkItemType'],
-            'stepsToReproduce' => $this->workItem['fields']['Microsoft.VSTS.TCM.ReproSteps'],
-        ]), 'bogus');
+        $devops->updateWorkItem($this->workItem['id'], $this->project['id'], [
+            'title' => 'New Title',
+        ]);
     }
 }

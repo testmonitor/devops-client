@@ -67,7 +67,7 @@ class AttachmentsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_an_failed_action_exception_when_client_receives_bad_request_while_adding_an_attachment_to_a_work_item()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_adding_an_attachment_to_a_work_item()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
