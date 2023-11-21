@@ -16,11 +16,11 @@ trait TransformsWorkItemTypes
      */
     protected function fromDevOpsWorkItemType(array $workItemType): WorkItemType
     {
-        Validator::keysExists($workItemType, ['name', 'description']);
+        Validator::keysExists($workItemType, ['name']);
 
         return new WorkItemType([
             'name' => $workItemType['name'],
-            'description' => $workItemType['description'],
+            'description' => $workItemType['description'] ?? '',
         ]);
     }
 

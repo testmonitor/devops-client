@@ -33,6 +33,13 @@ class WorkItem extends Resource
     public $description;
 
     /**
+     * The state of the work item.
+     *
+     * @var string
+     */
+    public $state;
+
+    /**
      * The type of the work item.
      *
      * @var string
@@ -61,11 +68,12 @@ class WorkItem extends Resource
     public function __construct(array $attributes)
     {
         $this->id = $attributes['id'] ?? null;
-        $this->path = $attributes['path'] ?? null;
         $this->title = $attributes['title'];
         $this->description = $attributes['description'] ?? '';
+        $this->state = $attributes['state'] ?? '';
         $this->workItemType = $attributes['workItemType'];
         $this->stepsToReproduce = $attributes['stepsToReproduce'] ?? '';
+        $this->path = $attributes['path'] ?? null;
         $this->url = $attributes['url'] ?? '';
     }
 }

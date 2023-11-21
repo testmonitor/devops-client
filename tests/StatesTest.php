@@ -7,17 +7,17 @@ use Exception;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
-use TestMonitor\DevOps\Resources\Team;
+use TestMonitor\DevOps\Resources\State;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
 
-class TeamsTest extends TestCase
+class StatesTest extends TestCase
 {
     protected $token;
 
-    protected $team;
+    protected $state;
 
     protected function setUp(): void
     {
@@ -26,7 +26,7 @@ class TeamsTest extends TestCase
         $this->token = Mockery::mock('\TestMonitor\DevOps\AccessToken');
         $this->token->shouldReceive('expired')->andReturnFalse();
 
-        $this->team = ['id' => '1', 'name' => 'SuperTeam', 'description' => 'We are famous!', 'path' => 'super-path'];
+        $this->state = ['name' => 'New', 'color' => 'FFFFFF', 'path' => 'Proposed'];
     }
 
     public function tearDown(): void
@@ -35,7 +35,7 @@ class TeamsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_a_list_of_teams()
+    public function it_should_return_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -44,21 +44,21 @@ class TeamsTest extends TestCase
 
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->team]])));
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->state]])));
 
         // When
-        $teams = $devops->teams(1);
+        $states = $devops->states(1, 'Bug');
 
         // Then
-        $this->assertIsArray($teams);
-        $this->assertCount(1, $teams);
-        $this->assertInstanceOf(Team::class, $teams[0]);
-        $this->assertEquals($this->team['id'], $teams[0]->id);
-        $this->assertIsArray($teams[0]->toArray());
+        $this->assertIsArray($states);
+        $this->assertCount(1, $states);
+        $this->assertInstanceOf(State::class, $states[0]);
+        $this->assertEquals($this->state['name'], $states[0]->name);
+        $this->assertIsArray($states[0]->toArray());
     }
 
     /** @test */
-    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_teams()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -72,11 +72,11 @@ class TeamsTest extends TestCase
         $this->expectException(FailedActionException::class);
 
         // When
-        $devops->teams(1);
+        $devops->states(1, 'Bug');
     }
 
     /** @test */
-    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_teams()
+    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -90,11 +90,11 @@ class TeamsTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         // When
-        $devops->teams(1);
+        $devops->states(1, 'Bug');
     }
 
     /** @test */
-    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_teams()
+    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -108,11 +108,11 @@ class TeamsTest extends TestCase
         $this->expectException(UnauthorizedException::class);
 
         // When
-        $devops->teams(1);
+        $devops->states(1, 'Bug');
     }
 
     /** @test */
-    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_teams()
+    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -126,11 +126,11 @@ class TeamsTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->teams(1);
+        $devops->states(1, 'Bug');
     }
 
     /** @test */
-    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_teams()
+    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -143,7 +143,7 @@ class TeamsTest extends TestCase
 
         // When
         try {
-            $devops->teams(1);
+            $devops->states(1, 'Bug');
         } catch (ValidationException $exception) {
             // Then
             $this->assertIsArray($exception->errors());
@@ -152,7 +152,7 @@ class TeamsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_teams()
+    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -166,6 +166,6 @@ class TeamsTest extends TestCase
         $this->expectException(Exception::class);
 
         // When
-        $devops->teams(1);
+        $devops->states(1, 'Bug');
     }
 }
