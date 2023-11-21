@@ -32,7 +32,7 @@ trait ManagesWorkItems
      *
      * @param string $projectId
      * @param \TestMonitor\DevOps\Builders\WIQL $query
-     * @param integer $limit
+     * @param int $limit
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      *

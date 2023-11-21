@@ -160,7 +160,7 @@ class WIQLTest extends TestCase
         // Given
 
         // When
-        $query = (new WIQL)->when(true, function(WIQL $query) {
+        $query = (new WIQL)->when(true, function (WIQL $query) {
             return $query->where(Field::PRIORITY, Operator::EQUALS, 1);
         })->getQuery();
 
@@ -175,7 +175,7 @@ class WIQLTest extends TestCase
         // Given
 
         // When
-        $query = (new WIQL)->when(false, function(WIQL $query) {
+        $query = (new WIQL)->when(false, function (WIQL $query) {
             return $query->where(Field::PRIORITY, Operator::EQUALS, 1);
         })->getQuery();
 

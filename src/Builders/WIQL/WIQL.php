@@ -30,7 +30,6 @@ class WIQL
      * Set field selection.
      *
      * @param array $fields
-     *
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function select(array $fields): self
@@ -44,7 +43,6 @@ class WIQL
      * Set query source (WorkItems, workItemLinks).
      *
      * @param array $fields
-     *
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function from(string $source): self
@@ -61,7 +59,6 @@ class WIQL
      * @param mixed $operator
      * @param mixed $value
      * @param string $boolean
-     *
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function where(
@@ -81,7 +78,6 @@ class WIQL
      * @param string $field
      * @param mixed $operator
      * @param mixed $value
-     *
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function orWhere(string $field, mixed $operator = Operator::EQUALS, mixed $value = null): self
@@ -94,7 +90,6 @@ class WIQL
      *
      * @param string $field
      * @param string $direction
-     *
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function orderBy(string $field, string $direction = 'ASC'): self
@@ -109,7 +104,6 @@ class WIQL
      *
      * @param mixed $value
      * @param callable $callback
-     *
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function when(mixed $value, callable $callback): self
@@ -128,7 +122,6 @@ class WIQL
      *
      * @param string $operator
      * @param mixed $value
-     *
      * @return string
      */
     protected function quote(string $operator, mixed $value): string

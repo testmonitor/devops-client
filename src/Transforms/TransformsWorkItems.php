@@ -9,7 +9,6 @@ trait TransformsWorkItems
 {
     /**
      * @param \TestMonitor\DevOps\Resources\WorkItem $workItem
-     *
      * @return array
      */
     protected function toNewDevOpsWorkItem(WorkItem $workItem): array
@@ -52,7 +51,6 @@ trait TransformsWorkItems
      *      stepsToReproduce: string
      *      path: string
      * } $attributes
-     *
      * @return array
      */
     protected function toUpdateDevOpsWorkItem(array $attributes): array
@@ -68,7 +66,7 @@ trait TransformsWorkItems
                     'op' => 'add',
                     'path' => '/fields/System.Description',
                     'value' => $attributes['description'],
-                ]: []),
+                ] : []),
                 ...(isset($attributes['state']) ? [
                     'op' => 'add',
                     'path' => '/fields/System.State',
@@ -78,7 +76,7 @@ trait TransformsWorkItems
                     'op' => 'add',
                     'path' => '/fields/Microsoft.VSTS.TCM.ReproSteps',
                     'value' => $attributes['stepsToReproduce'],
-                ]: []),
+                ] : []),
                 ...(isset($attributes['path']) ? [
                     [
                         'op' => 'add',
