@@ -132,7 +132,7 @@ class WIQLTest extends TestCase
 
         // When
         $query = (new WIQL)
-            ->where(function(WIQL $query) {
+            ->where(function (WIQL $query) {
                 return $query
                     ->where(Field::WORK_ITEM_TYPE, Operator::EQUALS, 'Issue')
                     ->orWhere(Field::TAGS, Operator::CONTAINS, 'tag');
@@ -155,7 +155,7 @@ class WIQLTest extends TestCase
         // When
         $query = (new WIQL)
             ->where(Field::TAGS, Operator::CONTAINS, 'tag')
-            ->where(function(WIQL $query) {
+            ->where(function (WIQL $query) {
                 return $query
                     ->where(Field::WORK_ITEM_TYPE, Operator::EQUALS, 'Issue')
                     ->orWhere(Field::WORK_ITEM_TYPE, Operator::EQUALS, 'Task');
