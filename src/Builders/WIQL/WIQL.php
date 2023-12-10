@@ -154,7 +154,7 @@ class WIQL
             $conditions .= $key !== array_key_first($this->wheres) ? " {$condition['boolean']} " : '';
 
             if ($condition['field'] instanceof Closure) {
-                $conditions .= '(' . ($condition['field'](new WIQL))->getConditions() . ')';
+                $conditions .= '(' . $condition['field'](new WIQL)->getConditions() . ')';
 
                 continue;
             }
