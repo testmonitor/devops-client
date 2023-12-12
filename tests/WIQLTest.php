@@ -126,6 +126,51 @@ class WIQLTest extends TestCase
     }
 
     /** @test */
+    public function it_should_generate_a_wiql_query_with_nested_conditions()
+    {
+        // Given
+
+        // When
+        $query = (new WIQL)
+            ->where(function (WIQL $query) {
+                return $query
+                    ->where(Field::WORK_ITEM_TYPE, Operator::EQUALS, 'Issue')
+                    ->orWhere(Field::TAGS, Operator::CONTAINS, 'tag');
+            })
+            ->getQuery();
+
+        // Then
+        $this->assertIsString($query);
+        $this->assertEquals(
+            'SELECT [System.Id] FROM WorkItems WHERE ([System.WorkItemType] = \'Issue\' OR [System.Tags] Contains \'tag\')',
+            $query
+        );
+    }
+
+    /** @test */
+    public function it_should_generate_a_wiql_query_with_plain_and_nested_conditions()
+    {
+        // Given
+
+        // When
+        $query = (new WIQL)
+            ->where(Field::TAGS, Operator::CONTAINS, 'tag')
+            ->where(function (WIQL $query) {
+                return $query
+                    ->where(Field::WORK_ITEM_TYPE, Operator::EQUALS, 'Issue')
+                    ->orWhere(Field::WORK_ITEM_TYPE, Operator::EQUALS, 'Task');
+            })
+            ->getQuery();
+
+        // Then
+        $this->assertIsString($query);
+        $this->assertEquals(
+            'SELECT [System.Id] FROM WorkItems WHERE [System.Tags] Contains \'tag\' AND ([System.WorkItemType] = \'Issue\' OR [System.WorkItemType] = \'Task\')',
+            $query
+        );
+    }
+
+    /** @test */
     public function it_should_generate_a_wiql_query_with_sorting_criteria()
     {
         // Given

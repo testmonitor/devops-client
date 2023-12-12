@@ -55,14 +55,14 @@ class WIQL
     /**
      * Add a new where condition.
      *
-     * @param string $field
+     * @param string|\Closure $field
      * @param mixed $operator
      * @param mixed $value
      * @param string $boolean
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
     public function where(
-        string $field,
+        string|Closure $field,
         mixed $operator = Operator::EQUALS,
         mixed $value = null,
         string $boolean = Keyword::AND
@@ -80,7 +80,7 @@ class WIQL
      * @param mixed $value
      * @return \TestMonitor\DevOps\Builders\WIQL\WIQL
      */
-    public function orWhere(string $field, mixed $operator = Operator::EQUALS, mixed $value = null): self
+    public function orWhere(string|Closure $field, mixed $operator = Operator::EQUALS, mixed $value = null): self
     {
         return $this->where($field, $operator, $value, Keyword::OR);
     }
@@ -124,7 +124,7 @@ class WIQL
      * @param mixed $value
      * @return string
      */
-    protected function quote(string $operator, mixed $value): string
+    public function quote(string $operator, mixed $value): string
     {
         if (in_array($operator, [Operator::IN, Operator::NOT_IN], true)) {
             $values = implode(
@@ -139,6 +139,32 @@ class WIQL
         }
 
         return "'{$value}'";
+    }
+
+    /**
+     * Generates conditions based on the available "wheres".
+     *
+     * @return string
+     */
+    public function getConditions(): string
+    {
+        $conditions = '';
+
+        foreach ($this->wheres as $key => $condition) {
+            $conditions .= $key !== array_key_first($this->wheres) ? " {$condition['boolean']} " : '';
+
+            if ($condition['field'] instanceof Closure) {
+                $conditions .= '(' . $condition['field'](new WIQL)->getConditions() . ')';
+
+                continue;
+            }
+
+            $values = $this->quote($condition['operator'], $condition['value']);
+
+            $conditions .= "{$condition['field']} {$condition['operator']} {$values}";
+        }
+
+        return $conditions;
     }
 
     /**
@@ -187,17 +213,7 @@ class WIQL
             return '';
         }
 
-        $wiql = 'WHERE ';
-
-        foreach ($this->wheres as $key => $condition) {
-            $values = $this->quote($condition['operator'], $condition['value']);
-
-            $wiql .= $key !== array_key_first($this->wheres) ? " {$condition['boolean']} " : '';
-
-            $wiql .= "{$condition['field']} {$condition['operator']} {$values}";
-        }
-
-        return $wiql;
+        return 'WHERE ' . $this->getConditions();
     }
 
     /**
