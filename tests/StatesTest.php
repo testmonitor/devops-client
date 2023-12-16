@@ -3,7 +3,6 @@
 namespace TestMonitor\DevOps\Tests;
 
 use Mockery;
-use Exception;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
@@ -47,14 +46,14 @@ class StatesTest extends TestCase
             ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode([
                 'value' => [[
                     'name' => 'System.CurrentProcessTemplateId',
-                    'value' => 'process'
-                ]]
+                    'value' => 'process',
+                ]],
             ])));
 
         $service->shouldReceive('request')
             ->once()
             ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode([
-                'value' => [['states' => [$this->state]], ['states' => [$this->state]]]
+                'value' => [['states' => [$this->state]], ['states' => [$this->state]]],
             ])));
 
         // When

@@ -8,7 +8,6 @@ class Arrays
      * Flatten a multi-dimensional associative array.
      *
      * @param array $array
-     *
      * @return array
      */
     public static function flatten(array $array): array
@@ -22,7 +21,6 @@ class Arrays
      * Takes an associative array and returns a new array without duplicate items.
      *
      * @param array $array
-     *
      * @return array
      */
     public static function unique(array $array, string $field)

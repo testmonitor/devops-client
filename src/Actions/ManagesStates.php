@@ -14,7 +14,6 @@ trait ManagesStates
      *
      * @param string $projectId
      * @param string $workItemType
-     *
      * @return \TestMonitor\DevOps\Resources\States[]
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
@@ -40,7 +39,6 @@ trait ManagesStates
      * Determine the process ID for the provided project.
      *
      * @param string $projectId
-     *
      * @return string
      */
     protected function findCurrentProjectProcess($projectId)
@@ -61,7 +59,6 @@ trait ManagesStates
      *
      * @param string $projectId
      * @param string $workItemType
-     *
      * @return \TestMonitor\DevOps\Resources\States[]
      */
     public function statesForWorkItem($projectId, $workItemType)
