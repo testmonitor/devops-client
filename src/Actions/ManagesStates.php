@@ -15,8 +15,6 @@ trait ManagesStates
      * @param string $projectId
      * @param string $workItemType
      * @return \TestMonitor\DevOps\Resources\States[]
-     *
-     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     public function states($projectId)
     {
@@ -29,7 +27,8 @@ trait ManagesStates
         $states = Arrays::unique(
             Arrays::flatten(
                 array_column($response['value'], 'states')
-            ), 'id'
+            ),
+            'id'
         );
 
         return $this->fromDevOpsStates($states);
