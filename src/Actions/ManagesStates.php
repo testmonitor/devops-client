@@ -43,7 +43,7 @@ trait ManagesStates
     protected function findCurrentProjectProcess($projectId)
     {
         $response = $this->get("_apis/projects/{$projectId}/properties", [
-            'query' => ['api-version' => '5.0-preview.1'],
+            'query' => ['api-version' => $this->previewApiVersion],
         ]);
 
         $property = current(
