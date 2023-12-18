@@ -10,8 +10,6 @@ trait TransformsTags
     /**
      * @param array $tags
      * @return \TestMonitor\DevOps\Resources\Tag[]
-     *
-     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     protected function fromDevOpsTags($tags): array
     {
@@ -25,8 +23,6 @@ trait TransformsTags
     /**
      * @param array $tag
      * @return \TestMonitor\DevOps\Resources\Tag
-     *
-     * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      */
     protected function fromDevOpsTag($tag): Tag
     {
