@@ -12,7 +12,6 @@ trait ManagesTags
      * Get a list of tags for a project.
      *
      * @param string $projectId
-     *
      * @return \TestMonitor\DevOps\Resources\Tags[]
      */
     public function tags($projectId)
