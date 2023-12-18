@@ -2,7 +2,6 @@
 
 namespace TestMonitor\DevOps\Actions;
 
-use TestMonitor\DevOps\Validator;
 use TestMonitor\DevOps\Transforms\TransformsAccounts;
 
 trait ManagesAccounts

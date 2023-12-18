@@ -43,7 +43,6 @@ trait TransformsAccounts
 
     /**
      * @param array $profile
-     *
      * @return \TestMonitor\DevOps\Resources\Profile
      */
     protected function fromDevOpsProfile($profile): Profile
@@ -56,5 +55,4 @@ trait TransformsAccounts
             'email' => $profile['emailAddress'],
         ]);
     }
-
 }

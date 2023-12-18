@@ -7,11 +7,11 @@ use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Resources\Account;
+use TestMonitor\DevOps\Resources\Profile;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
-use TestMonitor\DevOps\Resources\Profile;
 
 class AccountsTest extends TestCase
 {
