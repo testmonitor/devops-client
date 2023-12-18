@@ -18,18 +18,28 @@ trait ManagesAccounts
      */
     public function accounts()
     {
-        // First, establish your member ID
-        $connection = $this->get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me');
-
-        Validator::keyExists($connection, 'id');
+        // First, establish your profile ID
+        $user = $this->myself();
 
         // Second, retrieve for the accounts for this member
         $accounts = $this->request(
             'GET',
             'https://app.vssps.visualstudio.com/_apis/accounts',
-            ['query' => ['memberId' => $connection['id']]]
+            ['query' => ['memberId' => $user->id]]
         );
 
         return $this->fromDevOpsAccounts($accounts);
+    }
+
+    /**
+     * Returns the profile of the authenticated user.
+     *
+     * @return \TestMonitor\DevOps\Resources\Profile
+     */
+    public function myself()
+    {
+        $response = $this->get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me');
+
+        return $this->fromDevOpsProfile($response);
     }
 }
