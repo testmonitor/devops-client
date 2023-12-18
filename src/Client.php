@@ -17,6 +17,7 @@ class Client
         Actions\ManagesAttachments,
         Actions\ManagesProjects,
         Actions\ManagesStates,
+        Actions\ManagesTags,
         Actions\ManagesTeams,
         Actions\ManagesWebhooks,
         Actions\ManagesWorkItems,
