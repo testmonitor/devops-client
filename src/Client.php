@@ -40,7 +40,12 @@ class Client
     /**
      * @var string
      */
-    protected $apiVersion = '5.0';
+    protected $apiVersion = '7.0';
+
+    /**
+     * @var string
+     */
+    protected $previewApiVersion = '7.0-preview.1';
 
     /**
      * @var \GuzzleHttp\Client
