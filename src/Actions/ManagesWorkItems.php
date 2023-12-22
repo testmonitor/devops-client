@@ -61,6 +61,7 @@ trait ManagesWorkItems
             'query' => [
                 'ids' => implode(',', $ids),
                 'api-version' => $this->apiVersion,
+                '$expand' => 'Links',
             ],
         ]);
 
