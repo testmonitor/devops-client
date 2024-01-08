@@ -16,8 +16,8 @@ trait TransformsAttachments
         return [
             [
                 'op' => 'add',
-                'path'=> '/relations/-',
-                'value'=> [
+                'path' => '/relations/-',
+                'value' => [
                     'rel' => 'AttachedFile',
                     'url' => $attachmentUrl,
                     'attributes' => [
