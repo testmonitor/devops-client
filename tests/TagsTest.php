@@ -7,17 +7,17 @@ use Exception;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
-use TestMonitor\DevOps\Resources\Team;
+use TestMonitor\DevOps\Resources\Tag;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
 
-class TeamsTest extends TestCase
+class TagsTest extends TestCase
 {
     protected $token;
 
-    protected $team;
+    protected $tag;
 
     protected function setUp(): void
     {
@@ -26,7 +26,7 @@ class TeamsTest extends TestCase
         $this->token = Mockery::mock('\TestMonitor\DevOps\AccessToken');
         $this->token->shouldReceive('expired')->andReturnFalse();
 
-        $this->team = ['id' => '1', 'name' => 'SuperTeam', 'description' => 'We are famous!', 'path' => 'super-path'];
+        $this->tag = ['id' => '1', 'name' => 'Tagged'];
     }
 
     public function tearDown(): void
@@ -35,33 +35,33 @@ class TeamsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_a_list_of_teams()
+    public function it_should_return_a_list_of_tags()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->team]])));
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->tag]])));
 
         // When
-        $teams = $devops->teams(1);
+        $tags = $devops->tags(1);
 
         // Then
-        $this->assertIsArray($teams);
-        $this->assertCount(1, $teams);
-        $this->assertInstanceOf(Team::class, $teams[0]);
-        $this->assertEquals($this->team['id'], $teams[0]->id);
-        $this->assertIsArray($teams[0]->toArray());
+        $this->assertIsArray($tags);
+        $this->assertCount(1, $tags);
+        $this->assertInstanceOf(Tag::class, $tags[0]);
+        $this->assertEquals($this->tag['id'], $tags[0]->id);
+        $this->assertIsArray($tags[0]->toArray());
     }
 
     /** @test */
-    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_teams()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_tags()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -72,14 +72,14 @@ class TeamsTest extends TestCase
         $this->expectException(FailedActionException::class);
 
         // When
-        $devops->teams(1);
+        $devops->tags(1);
     }
 
     /** @test */
-    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_teams()
+    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_tags()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -90,14 +90,14 @@ class TeamsTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         // When
-        $devops->teams(1);
+        $devops->tags(1);
     }
 
     /** @test */
-    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_teams()
+    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_tags()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -108,14 +108,14 @@ class TeamsTest extends TestCase
         $this->expectException(UnauthorizedException::class);
 
         // When
-        $devops->teams(1);
+        $devops->tags(1);
     }
 
     /** @test */
-    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_teams()
+    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_tags()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -126,14 +126,14 @@ class TeamsTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->teams(1);
+        $devops->tags(1);
     }
 
     /** @test */
-    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_teams()
+    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_tags()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -143,7 +143,7 @@ class TeamsTest extends TestCase
 
         // When
         try {
-            $devops->teams(1);
+            $devops->tags(1);
         } catch (ValidationException $exception) {
             // Then
             $this->assertIsArray($exception->errors());
@@ -152,10 +152,10 @@ class TeamsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_teams()
+    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_tags()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -166,6 +166,6 @@ class TeamsTest extends TestCase
         $this->expectException(Exception::class);
 
         // When
-        $devops->teams(1);
+        $devops->tags(1);
     }
 }

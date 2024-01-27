@@ -16,7 +16,10 @@ class Client
     use Actions\ManagesAccounts,
         Actions\ManagesAttachments,
         Actions\ManagesProjects,
+        Actions\ManagesStates,
+        Actions\ManagesTags,
         Actions\ManagesTeams,
+        Actions\ManagesWebhooks,
         Actions\ManagesWorkItems,
         Actions\ManagesWorkItemTypes;
 
@@ -38,7 +41,12 @@ class Client
     /**
      * @var string
      */
-    protected $apiVersion = '5.0';
+    protected $apiVersion = '7.0';
+
+    /**
+     * @var string
+     */
+    protected $previewApiVersion = '7.0-preview.1';
 
     /**
      * @var \GuzzleHttp\Client
@@ -220,7 +228,7 @@ class Client
     }
 
     /**
-     * Make a PUT request to Forge servers and return the response.
+     * Make a PUT request to DevOps servers and return the response.
      *
      * @param string $uri
      * @param array $payload
@@ -237,6 +245,26 @@ class Client
     protected function patch($uri, array $payload = [])
     {
         return $this->request('PATCH', $uri, $payload);
+    }
+
+    /**
+     * Make a DELETE request to DevOps servers and return the response.
+     *
+     * @param string $uri
+     * @param array $payload
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \TestMonitor\DevOps\Exceptions\FailedActionException
+     * @throws \TestMonitor\DevOps\Exceptions\NotFoundException
+     * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
+     * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
+     * @throws \TestMonitor\DevOps\Exceptions\ValidationException
+     *
+     * @return mixed
+     */
+    protected function delete($uri, array $payload = [])
+    {
+        return $this->request('DELETE', $uri, $payload);
     }
 
     /**

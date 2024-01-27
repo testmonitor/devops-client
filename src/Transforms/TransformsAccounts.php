@@ -4,6 +4,7 @@ namespace TestMonitor\DevOps\Transforms;
 
 use TestMonitor\DevOps\Validator;
 use TestMonitor\DevOps\Resources\Account;
+use TestMonitor\DevOps\Resources\Profile;
 
 trait TransformsAccounts
 {
@@ -37,6 +38,21 @@ trait TransformsAccounts
         return new Account([
             'id' => $account['AccountId'],
             'name' => $account['AccountName'],
+        ]);
+    }
+
+    /**
+     * @param array $profile
+     * @return \TestMonitor\DevOps\Resources\Profile
+     */
+    protected function fromDevOpsProfile($profile): Profile
+    {
+        Validator::keysExists($profile, ['id', 'displayName', 'emailAddress']);
+
+        return new Profile([
+            'id' => $profile['id'],
+            'name' => $profile['displayName'],
+            'email' => $profile['emailAddress'],
         ]);
     }
 }

@@ -2,21 +2,28 @@
 
 namespace TestMonitor\DevOps\Resources;
 
-class WorkItemType extends Resource
+class Profile extends Resource
 {
     /**
-     * The name of the work item type.
+     * The id of the profile.
+     *
+     * @var string
+     */
+    public $id;
+
+    /**
+     * The name of the profile.
      *
      * @var string
      */
     public $name;
 
     /**
-     * The name of the work item type.
+     * The email address of the profile.
      *
      * @var string
      */
-    public $description;
+    public $email;
 
     /**
      * Create a new resource instance.
@@ -25,7 +32,8 @@ class WorkItemType extends Resource
      */
     public function __construct(array $attributes)
     {
+        $this->id = $attributes['id'];
         $this->name = $attributes['name'];
-        $this->description = $attributes['description'] ?? '';
+        $this->email = $attributes['email'];
     }
 }
