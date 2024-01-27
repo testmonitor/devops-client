@@ -2,7 +2,7 @@
 
 namespace TestMonitor\DevOps;
 
-use League\OAuth2\Client\Token\AccessToken as VSTSAccessToken;
+use League\OAuth2\Client\Token\AccessToken as AzureAccessToken;
 
 class AccessToken
 {
@@ -39,7 +39,7 @@ class AccessToken
      * @param \League\OAuth2\Client\Token\AccessToken $token
      * @return \TestMonitor\DevOps\AccessToken
      */
-    public static function fromDevOps(VSTSAccessToken $token)
+    public static function fromDevOps(AzureAccessToken $token)
     {
         return new self(
             $token->getToken(),

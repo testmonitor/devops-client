@@ -8,7 +8,7 @@
 [![StyleCI](https://styleci.io/repos/223973950/shield)](https://styleci.io/repos/223973950)
 [![License](https://poser.pugx.org/testmonitor/devops-client/license)](https://packagist.org/packages/testmonitor/devops-client)
 
-This package provides a very basic, convenient, and unified wrapper for [Microsoft Azure DevOps](https://azure.microsoft.com/en-us/services/devops/). 
+This package provides a very basic, convenient, and unified wrapper for [Microsoft Azure DevOps](https://azure.microsoft.com/en-us/services/devops/).
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ This package provides a very basic, convenient, and unified wrapper for [Microso
 - [Contributing](#contributing)
 - [Credits](#credits)
 - [License](#license)
-  
+
 ## Installation
 
 To install the client you need to require the package using composer:
@@ -37,16 +37,17 @@ You're all set up now!
 
 ## Usage
 
-This client only supports **oAuth authentication**. You'll need an Azure DevOps application to proceed. If you haven't done so,
-please read up with the [Azure DevOps authentication docs](https://docs.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/oauth?view=azure-devops) on how
-to create an application.
+This client only supports **oAuth authentication**. You'll need an Microsoft Entra ID OAuth app to proceed.
+If you haven't done so, please read up with the [Azure DevOps authentication docs](https://docs.microsoft.com/en-us/azure/devops/integrate/get-started/authentication/oauth?view=azure-devops)
+on how to create an application and set the correct permissions.
 
-When your DevOps application is up and running, start with the oAuth authorization:
+When your OAuth app is up and running, start with the oAuth authorization:
 
 ```php
 $oauth = [
     'clientId' => '12345',
     'clientSecret' => 'abcdef',
+    'appId' => '12345',
     'redirectUrl' => 'https://redirect.myapp.com/',
 ];
 
@@ -63,6 +64,7 @@ back to your app. This URL should point to the following code:
 $oauth = [
     'clientId' => '12345',
     'clientSecret' => 'abcdef',
+    'appId' => '12345',
     'redirectUrl' => 'https://redirect.myapp.com/',
 ];
 
@@ -75,7 +77,7 @@ When everything went ok, you should have an access token (available through Toke
 After that, you'll have to refresh the token to regain access:
 
 ```php
-$oauth = ['clientId' => '12345', 'clientSecret' => 'abcdef', 'redirectUrl' => 'https://redirect.myapp.com/'];
+$oauth = ['clientId' => '12345', 'clientSecret' => 'abcdef', 'appId' => '12345', 'redirectUrl' => 'https://redirect.myapp.com/'];
 $token = new \TestMonitor\DevOps\AccessToken('eyJ0...', '0/34ccc...', 1574601877); // the token you got last time
 $organization = 'MyOrg';
 
@@ -86,7 +88,7 @@ if ($token->expired()) {
 }
 ```
 
-The new token will be valid again for the next hour. 
+The new token will be valid again for the next hour.
 
 ## Examples
 
@@ -112,7 +114,7 @@ $workItem = $devops->createWorkItem(new \TestMonitor\DevOps\Resources\WorkItem([
 The package contains integration tests. You can run them using PHPUnit.
 
     $ vendor/bin/phpunit
-    
+
 ## Changelog
 
 Refer to [CHANGELOG](CHANGELOG.md) for more information.

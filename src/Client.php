@@ -5,7 +5,6 @@ namespace TestMonitor\DevOps;
 use Psr\Http\Message\ResponseInterface;
 use TestMonitor\DevOps\Exceptions\Exception;
 use TheNetworg\OAuth2\Client\Provider\Azure;
-use Jeylabs\OAuth2\Client\Provider\VSTSProvider;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
@@ -47,7 +46,7 @@ class Client
     protected $client;
 
     /**
-     * @var VSTSProvider
+     * @var \TheNetworg\OAuth2\Client\Provider\Azure
      */
     protected $provider;
 
@@ -74,8 +73,6 @@ class Client
             'redirectUri' => $credentials['redirectUrl'],
             'scopes' => [
                 'offline_access',
-                'openid',
-                'profile',
                 "{$credentials['appId']}/.default",
             ],
             'defaultEndPointVersion' => '2.0',
