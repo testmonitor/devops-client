@@ -4,7 +4,7 @@ namespace TestMonitor\DevOps;
 
 use Psr\Http\Message\ResponseInterface;
 use TestMonitor\DevOps\Exceptions\Exception;
-use Jeylabs\OAuth2\Client\Provider\VSTSProvider;
+use TheNetworg\OAuth2\Client\Provider\Azure;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
@@ -46,7 +46,7 @@ class Client
     protected $client;
 
     /**
-     * @var VSTSProvider
+     * @var \TheNetworg\OAuth2\Client\Provider\Azure
      */
     protected $provider;
 
@@ -56,27 +56,26 @@ class Client
      * @param array $credentials
      * @param \TestMonitor\DevOps\AccessToken $token
      * @param string $organization
-     * @param \Jeylabs\OAuth2\Client\Provider\VSTSProvider $provider
+     * @param \TheNetworg\OAuth2\Client\Provider\Azure $provider
      */
     public function __construct(
         array $credentials,
         string $organization = '',
         AccessToken $token = null,
-        VSTSProvider $provider = null
+        Azure $provider = null
     ) {
         $this->token = $token;
         $this->organization = $organization;
 
-        $this->provider = $provider ?? new VSTSProvider([
+        $this->provider = $provider ?? new Azure([
             'clientId' => $credentials['clientId'],
             'clientSecret' => $credentials['clientSecret'],
             'redirectUri' => $credentials['redirectUrl'],
-            'urlAuthorize' => $credentials['authorizeUrl'] ?? 'https://app.vssps.visualstudio.com/oauth2/authorize',
-            'urlAccessToken' => $credentials['accessTokenUrl'] ?? 'https://app.vssps.visualstudio.com/oauth2/token',
-            'urlResourceOwnerDetails' => $credentials['resourceOwnerDetailsUrl'] ??
-                'https://app.vssps.visualstudio.com/oauth2/token/resource',
-            'responseType' => 'Assertion',
-            'scopes' => 'vso.project vso.work_full',
+            'scopes' => [
+                'offline_access',
+                "{$credentials['appId']}/.default",
+            ],
+            'defaultEndPointVersion' => '2.0',
         ]);
     }
 
@@ -99,8 +98,8 @@ class Client
      */
     public function fetchToken(string $code): AccessToken
     {
-        $token = $this->provider->getAccessToken('jwt_bearer', [
-            'assertion' => $code,
+        $token = $this->provider->getAccessToken('authorization_code', [
+            'code' => $code,
         ]);
 
         $this->token = AccessToken::fromDevOps($token);
@@ -121,9 +120,8 @@ class Client
             throw new UnauthorizedException();
         }
 
-        $token = $this->provider->getAccessToken('jwt_bearer', [
-            'grant_type' => 'refresh_token',
-            'assertion' => $this->token->refreshToken,
+        $token = $this->provider->getAccessToken('refresh_token', [
+            'refresh_token' => $this->token->refreshToken,
         ]);
 
         $this->token = AccessToken::fromDevOps($token);

@@ -34,7 +34,7 @@ class OauthTest extends TestCase
         // Given
         $token = new AccessToken('12345', '67890', time() - 60);
 
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -53,7 +53,7 @@ class OauthTest extends TestCase
         // Given
         $token = new AccessToken('12345', '67890', time() - 60);
 
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -67,12 +67,12 @@ class OauthTest extends TestCase
     public function it_should_provide_an_authorization_url()
     {
         // Given
-        $dispatcher = Mockery::mock('\Jeylabs\OAuth2\Client\Provider\VSTSProvider');
+        $dispatcher = Mockery::mock('\TheNetworg\OAuth2\Client\Provider\Azure');
         $state = 'somestate';
 
         $dispatcher->shouldReceive('getAuthorizationUrl')->with(['state' => $state])->andReturn('https://devops.authorization.url');
 
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', new AccessToken(), $dispatcher);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', new AccessToken(), $dispatcher);
 
         // When
         $url = $devops->authorizationUrl($state);
@@ -85,7 +85,7 @@ class OauthTest extends TestCase
     public function it_should_fetch_a_token()
     {
         // Given
-        $dispatcher = Mockery::mock('\Jeylabs\OAuth2\Client\Provider\VSTSProvider');
+        $dispatcher = Mockery::mock('\TheNetworg\OAuth2\Client\Provider\Azure');
 
         $newToken = new AccessToken('12345', '567890', time() + 3600);
 
@@ -101,7 +101,7 @@ class OauthTest extends TestCase
             'expires_in' => $newToken->expiresIn,
         ]));
 
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', new AccessToken(), $dispatcher);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', new AccessToken(), $dispatcher);
 
         // When
         $token = $devops->fetchToken($code);
@@ -117,11 +117,11 @@ class OauthTest extends TestCase
     public function it_should_refresh_a_token()
     {
         // Given
-        $dispatcher = Mockery::mock('\Jeylabs\OAuth2\Client\Provider\VSTSProvider');
+        $dispatcher = Mockery::mock('\TheNetworg\OAuth2\Client\Provider\Azure');
 
         $oldToken = new AccessToken('12345', '567890', time() - 3600);
 
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $oldToken, $dispatcher);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $oldToken, $dispatcher);
 
         $newToken = new AccessToken('23456', '678901', time() + 3600);
 
@@ -149,7 +149,7 @@ class OauthTest extends TestCase
     public function it_should_not_refresh_a_token_without_a_refresh_token()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg');
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg');
 
         $this->expectException(UnauthorizedException::class);
 
@@ -161,7 +161,7 @@ class OauthTest extends TestCase
     public function it_should_not_provide_a_client_without_a_token()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg');
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg');
 
         $this->expectException(UnauthorizedException::class);
 
