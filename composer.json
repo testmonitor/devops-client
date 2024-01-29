@@ -27,7 +27,7 @@
     "require": {
         "php": "^8.1",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^6.4|^7.0",
+        "guzzlehttp/guzzle": "^7.0",
         "thenetworg/oauth2-azure": "^2.2"
     },
     "require-dev": {
