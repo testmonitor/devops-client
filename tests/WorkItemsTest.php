@@ -135,7 +135,7 @@ class WorkItemsTest extends TestCase
     public function it_should_return_a_list_of_work_items()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -162,7 +162,7 @@ class WorkItemsTest extends TestCase
     public function it_should_search_through_a_list_of_work_items_using_wiql()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -195,7 +195,7 @@ class WorkItemsTest extends TestCase
     public function it_should_return_an_empty_work_item_list_when_there_are_no_results()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -215,7 +215,7 @@ class WorkItemsTest extends TestCase
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_work_items()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -233,7 +233,7 @@ class WorkItemsTest extends TestCase
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_work_items()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -251,7 +251,7 @@ class WorkItemsTest extends TestCase
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_work_items()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -317,7 +317,7 @@ class WorkItemsTest extends TestCase
     public function it_should_update_a_work_item()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -339,7 +339,7 @@ class WorkItemsTest extends TestCase
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_updating_an_invalid_work_item()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
