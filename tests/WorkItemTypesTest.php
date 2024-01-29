@@ -68,7 +68,7 @@ class WorkItemTypesTest extends TestCase
     public function it_should_return_a_list_of_work_item_types_with_an_empty_exception_list()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
