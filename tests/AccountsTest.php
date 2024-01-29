@@ -140,7 +140,7 @@ class AccountsTest extends TestCase
     public function it_should_return_the_profile_of_the_current_authenticated_user()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -161,7 +161,7 @@ class AccountsTest extends TestCase
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -179,7 +179,7 @@ class AccountsTest extends TestCase
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -197,7 +197,7 @@ class AccountsTest extends TestCase
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
@@ -215,7 +215,7 @@ class AccountsTest extends TestCase
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given
-        $devops = new Client(['clientId' => 1, 'clientSecret' =>'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
