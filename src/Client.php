@@ -321,7 +321,7 @@ class Client
         }
 
         if ($response->getStatusCode() == 401 || $response->getStatusCode() == 403) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException((string) $response->getBody());
         }
 
         if ($response->getStatusCode() == 400) {
