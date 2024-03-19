@@ -2,21 +2,28 @@
 
 namespace TestMonitor\DevOps\Resources;
 
-class WorkItemType extends Resource
+class State extends Resource
 {
     /**
-     * The name of the work item type.
+     * The name of the state.
      *
      * @var string
      */
     public $name;
 
     /**
-     * The name of the work item type.
+     * The color of the state.
      *
      * @var string
      */
-    public $description;
+    public $color;
+
+    /**
+     * The category for the state.
+     *
+     * @var string
+     */
+    public $category;
 
     /**
      * Create a new resource instance.
@@ -26,6 +33,7 @@ class WorkItemType extends Resource
     public function __construct(array $attributes)
     {
         $this->name = $attributes['name'];
-        $this->description = $attributes['description'] ?? '';
+        $this->color = $attributes['color'] ?? '';
+        $this->category = $attributes['category'] ?? '';
     }
 }

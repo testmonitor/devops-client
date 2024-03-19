@@ -3,24 +3,21 @@
 namespace TestMonitor\DevOps\Tests;
 
 use Mockery;
+use Exception;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
-use TestMonitor\DevOps\Resources\Attachment;
+use TestMonitor\DevOps\Resources\Tag;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
 
-class AttachmentsTest extends TestCase
+class TagsTest extends TestCase
 {
     protected $token;
 
-    protected $project;
-
-    protected $workItem;
-
-    protected $attachment;
+    protected $tag;
 
     protected function setUp(): void
     {
@@ -29,9 +26,7 @@ class AttachmentsTest extends TestCase
         $this->token = Mockery::mock('\TestMonitor\DevOps\AccessToken');
         $this->token->shouldReceive('expired')->andReturnFalse();
 
-        $this->project = ['id' => '1', 'name' => 'Project'];
-        $this->workItem = ['id' => 1, 'fields' => []];
-        $this->attachment = ['id' => 1, 'url' => 'https://attachment.url/'];
+        $this->tag = ['id' => '1', 'name' => 'Tagged'];
     }
 
     public function tearDown(): void
@@ -40,34 +35,30 @@ class AttachmentsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_add_an_attachment_to_a_work_item()
+    public function it_should_return_a_list_of_tags()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
-        // First, adding an attachment...
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->attachment)));
-
-        // Second, adding the attachment to the work item
-        $service->shouldReceive('request')
-            ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->workItem)));
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->tag]])));
 
         // When
-        $attachment = $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
+        $tags = $devops->tags(1);
 
         // Then
-        $this->assertInstanceOf(Attachment::class, $attachment);
-        $this->assertEquals($this->attachment['url'], $attachment->url);
-        $this->assertIsArray($attachment->toArray());
+        $this->assertIsArray($tags);
+        $this->assertCount(1, $tags);
+        $this->assertInstanceOf(Tag::class, $tags[0]);
+        $this->assertEquals($this->tag['id'], $tags[0]->id);
+        $this->assertIsArray($tags[0]->toArray());
     }
 
     /** @test */
-    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_adding_an_attachment_to_a_work_item()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_tags()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -81,11 +72,11 @@ class AttachmentsTest extends TestCase
         $this->expectException(FailedActionException::class);
 
         // When
-        $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
+        $devops->tags(1);
     }
 
     /** @test */
-    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_adding_an_attachment_to_a_work_item()
+    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_tags()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -99,11 +90,11 @@ class AttachmentsTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         // When
-        $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
+        $devops->tags(1);
     }
 
     /** @test */
-    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_adding_an_attachment_to_a_work_item()
+    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_tags()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -117,11 +108,11 @@ class AttachmentsTest extends TestCase
         $this->expectException(UnauthorizedException::class);
 
         // When
-        $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
+        $devops->tags(1);
     }
 
     /** @test */
-    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_adding_an_attachment_to_a_work_item()
+    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_tags()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -135,6 +126,46 @@ class AttachmentsTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
+        $devops->tags(1);
+    }
+
+    /** @test */
+    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_tags()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['errors' => ['invalid']])));
+
+        // When
+        try {
+            $devops->tags(1);
+        } catch (ValidationException $exception) {
+            // Then
+            $this->assertIsArray($exception->errors());
+            $this->assertEquals('invalid', $exception->errors()['errors'][0]);
+        }
+    }
+
+    /** @test */
+    public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_tags()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(418, ['Content-Type' => 'application/json'], json_encode(['herbal_tea' => 'anyone?'])));
+
+        $this->expectException(Exception::class);
+
+        // When
+        $devops->tags(1);
     }
 }

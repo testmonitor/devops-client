@@ -6,20 +6,17 @@ use Mockery;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
-use TestMonitor\DevOps\Resources\Account;
-use TestMonitor\DevOps\Resources\Profile;
+use TestMonitor\DevOps\Resources\State;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
 
-class AccountsTest extends TestCase
+class StatesTest extends TestCase
 {
     protected $token;
 
-    protected $account;
-
-    protected $profile;
+    protected $state;
 
     protected function setUp(): void
     {
@@ -28,8 +25,7 @@ class AccountsTest extends TestCase
         $this->token = Mockery::mock('\TestMonitor\DevOps\AccessToken');
         $this->token->shouldReceive('expired')->andReturnFalse();
 
-        $this->account = ['AccountId' => '1', 'AccountName' => 'Account'];
-        $this->profile = ['id' => '1', 'displayName' => 'My Name', 'emailAddress' => 'me@devops.com'];
+        $this->state = ['id' => 1, 'name' => 'New', 'color' => 'FFFFFF', 'path' => 'Proposed'];
     }
 
     public function tearDown(): void
@@ -38,7 +34,7 @@ class AccountsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_a_list_of_accounts()
+    public function it_should_return_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -47,25 +43,32 @@ class AccountsTest extends TestCase
 
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->profile)));
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode([
+                'value' => [[
+                    'name' => 'System.CurrentProcessTemplateId',
+                    'value' => 'process',
+                ]],
+            ])));
 
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode([$this->account])));
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode([
+                'value' => [['states' => [$this->state]], ['states' => [$this->state]]],
+            ])));
 
         // When
-        $accounts = $devops->accounts();
+        $states = $devops->states(1);
 
         // Then
-        $this->assertIsArray($accounts);
-        $this->assertCount(1, $accounts);
-        $this->assertInstanceOf(Account::class, $accounts[0]);
-        $this->assertEquals($this->account['AccountId'], $accounts[0]->id);
-        $this->assertIsArray($accounts[0]->toArray());
+        $this->assertIsArray($states);
+        $this->assertCount(1, $states);
+        $this->assertInstanceOf(State::class, $states[0]);
+        $this->assertEquals($this->state['name'], $states[0]->name);
+        $this->assertIsArray($states[0]->toArray());
     }
 
     /** @test */
-    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_accounts()
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -79,11 +82,11 @@ class AccountsTest extends TestCase
         $this->expectException(FailedActionException::class);
 
         // When
-        $devops->accounts();
+        $devops->states(1);
     }
 
     /** @test */
-    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_accounts()
+    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -97,11 +100,11 @@ class AccountsTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         // When
-        $devops->accounts();
+        $devops->states(1);
     }
 
     /** @test */
-    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_accounts()
+    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -115,11 +118,11 @@ class AccountsTest extends TestCase
         $this->expectException(UnauthorizedException::class);
 
         // When
-        $devops->accounts();
+        $devops->states(1);
     }
 
     /** @test */
-    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_accounts()
+    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -133,11 +136,11 @@ class AccountsTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->accounts();
+        $devops->states(1);
     }
 
     /** @test */
-    public function it_should_return_the_profile_of_the_current_authenticated_user()
+    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_states()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -146,19 +149,43 @@ class AccountsTest extends TestCase
 
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->profile)));
+            ->andReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['errors' => ['invalid']])));
 
         // When
-        $profile = $devops->myself();
-
-        // Then
-        $this->assertIsObject($profile);
-        $this->assertInstanceOf(Profile::class, $profile);
-        $this->assertEquals($this->profile['id'], $profile->id);
+        try {
+            $devops->states(1);
+        } catch (ValidationException $exception) {
+            // Then
+            $this->assertIsArray($exception->errors());
+            $this->assertEquals('invalid', $exception->errors()['errors'][0]);
+        }
     }
 
     /** @test */
-    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_the_profile_of_the_current_authenticated_user()
+    public function it_should_return_a_list_of_states_for_a_work_item_type()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->state]])));
+
+        // When
+        $states = $devops->statesForWorkItem(1, 'Bug');
+
+        // Then
+        $this->assertIsArray($states);
+        $this->assertCount(1, $states);
+        $this->assertInstanceOf(State::class, $states[0]);
+        $this->assertEquals($this->state['name'], $states[0]->name);
+        $this->assertIsArray($states[0]->toArray());
+    }
+
+    /** @test */
+    public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -172,11 +199,11 @@ class AccountsTest extends TestCase
         $this->expectException(FailedActionException::class);
 
         // When
-        $devops->myself();
+        $devops->statesForWorkItem(1, 'Bug');
     }
 
     /** @test */
-    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_the_profile_of_the_current_authenticated_user()
+    public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -190,11 +217,11 @@ class AccountsTest extends TestCase
         $this->expectException(NotFoundException::class);
 
         // When
-        $devops->myself();
+        $devops->statesForWorkItem(1, 'Bug');
     }
 
     /** @test */
-    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_the_profile_of_the_current_authenticated_user()
+    public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -208,11 +235,11 @@ class AccountsTest extends TestCase
         $this->expectException(UnauthorizedException::class);
 
         // When
-        $devops->myself();
+        $devops->statesForWorkItem(1, 'Bug');
     }
 
     /** @test */
-    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_the_profile_of_the_current_authenticated_user()
+    public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
@@ -226,6 +253,28 @@ class AccountsTest extends TestCase
         $this->expectException(ValidationException::class);
 
         // When
-        $devops->myself();
+        $devops->statesForWorkItem(1, 'Bug');
+    }
+
+    /** @test */
+    public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_states_for_a_work_item_type()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['errors' => ['invalid']])));
+
+        // When
+        try {
+            $devops->statesForWorkItem(1, 'Bug');
+        } catch (ValidationException $exception) {
+            // Then
+            $this->assertIsArray($exception->errors());
+            $this->assertEquals('invalid', $exception->errors()['errors'][0]);
+        }
     }
 }
