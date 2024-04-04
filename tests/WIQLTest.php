@@ -5,6 +5,7 @@ namespace TestMonitor\DevOps\Tests;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Builders\WIQL\WIQL;
 use TestMonitor\DevOps\Builders\WIQL\Field;
+use TestMonitor\DevOps\Builders\WIQL\Macro;
 use TestMonitor\DevOps\Builders\WIQL\Operator;
 
 class WIQLTest extends TestCase
@@ -168,6 +169,32 @@ class WIQLTest extends TestCase
             'SELECT [System.Id] FROM WorkItems WHERE [System.Tags] Contains \'tag\' AND ([System.WorkItemType] = \'Issue\' OR [System.WorkItemType] = \'Task\')',
             $query
         );
+    }
+
+    /** @test */
+    public function it_should_generate_a_wiql_query_using_the_project_macro()
+    {
+        // Given
+
+        // When
+        $query = (new WIQL)->where(Field::TEAM_PROJECT, Operator::EQUALS, Macro::currentProject())->getQuery();
+
+        // Then
+        $this->assertIsString($query);
+        $this->assertEquals('SELECT [System.Id] FROM WorkItems WHERE [System.TeamProject] = @Project', $query);
+    }
+
+    /** @test */
+    public function it_should_generate_a_wiql_query_using_the_user_macro()
+    {
+        // Given
+
+        // When
+        $query = (new WIQL)->where(Field::ASSIGNED_TO, Operator::EQUALS, Macro::currentUser())->getQuery();
+
+        // Then
+        $this->assertIsString($query);
+        $this->assertEquals('SELECT [System.Id] FROM WorkItems WHERE [System.AssignedTo] = @Me', $query);
     }
 
     /** @test */
