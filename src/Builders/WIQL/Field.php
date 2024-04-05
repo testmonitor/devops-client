@@ -28,6 +28,8 @@ class Field
 
     public const TAGS = '[System.Tags]';
 
+    public const TEAM_PROJECT = '[System.TeamProject]';
+
     public const TITLE = '[System.Title]';
 
     public const WORK_ITEM_TYPE = '[System.WorkItemType]';

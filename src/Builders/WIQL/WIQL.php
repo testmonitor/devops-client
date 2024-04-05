@@ -159,7 +159,9 @@ class WIQL
                 continue;
             }
 
-            $values = $this->quote($condition['operator'], $condition['value']);
+            $values = $condition['value'] instanceof Macro ?
+                $condition['value']->getValue() :
+                $this->quote($condition['operator'], $condition['value']);
 
             $conditions .= "{$condition['field']} {$condition['operator']} {$values}";
         }
