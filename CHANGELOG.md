@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2024-04-10
+### Added
+- WIQL support
+- Webhook support
+- Myself endpoint
+- Managing states
+- Managing tags
+- Managing workitem types
+- Managing workitems
+
 ## [1.6.0] - 2024-01-29
 ### Updated
 - Replaced OAuth VSTS with thenetworg
