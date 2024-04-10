@@ -8,9 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - WIQL support
 - Webhook support
+- Myself endpoint
 - Managing states
 - Managing tags
 - Managing workitem types
+- Managing workitems
 
 ## [1.6.0] - 2024-01-29
 ### Updated
