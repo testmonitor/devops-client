@@ -10,6 +10,7 @@ use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
 use TestMonitor\DevOps\Exceptions\TokenExpiredException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 class Client
 {
@@ -118,21 +119,25 @@ class Client
     /**
      * Refresh the current access token.
      *
-     * @throws \Exception
+     * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
      *
      * @return \TestMonitor\DevOps\AccessToken
      */
-    public function refreshToken(): AccessToken
+    public function refreshToken(): ?AccessToken
     {
         if (empty($this->token)) {
             throw new UnauthorizedException();
         }
 
-        $token = $this->provider->getAccessToken('refresh_token', [
-            'refresh_token' => $this->token->refreshToken,
-        ]);
+        try {
+            $token = $this->provider->getAccessToken('refresh_token', [
+                'refresh_token' => $this->token->refreshToken,
+            ]);
 
-        $this->token = AccessToken::fromDevOps($token);
+            $this->token = AccessToken::fromDevOps($token);
+        } catch (IdentityProviderException $exception) {
+            throw new UnauthorizedException((string) $exception->getResponseBody(), $exception->getCode(), $exception);
+        }
 
         return $this->token;
     }
@@ -151,7 +156,7 @@ class Client
      * Returns an Guzzle client instance.
      *
      * @throws \TestMonitor\DevOps\Exceptions\UnauthorizedException
-     * @throws TokenExpiredException
+     * @throws \TestMonitor\DevOps\Exceptions\TokenExpiredException
      *
      * @return \GuzzleHttp\Client
      */
