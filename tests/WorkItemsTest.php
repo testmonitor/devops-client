@@ -355,7 +355,7 @@ class WorkItemsTest extends TestCase
         ]);
     }
 
-        /** @test */
+    /** @test */
     public function it_should_throw_a_failed_action_exception_when_client_receives_a_conflict_exception_while_updating_a_work_item()
     {
         // Given
