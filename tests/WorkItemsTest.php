@@ -374,5 +374,4 @@ class WorkItemsTest extends TestCase
             'title' => 'New Title',
         ]);
     }
-
 }
