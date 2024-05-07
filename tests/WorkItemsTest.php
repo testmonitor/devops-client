@@ -354,4 +354,25 @@ class WorkItemsTest extends TestCase
             'title' => 'New Title',
         ]);
     }
+
+        /** @test */
+    public function it_should_throw_a_failed_action_exception_when_client_receives_a_conflict_exception_while_updating_a_work_item()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(409, ['Content-Type' => 'application/json'], null));
+
+        $this->expectException(FailedActionException::class);
+
+        // When
+         $devops->updateWorkItem($this->workItem['id'], $this->project['id'], [
+            'title' => 'New Title',
+        ]);
+    }
+
 }
