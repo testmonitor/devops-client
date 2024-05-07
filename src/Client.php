@@ -329,7 +329,7 @@ class Client
             throw new UnauthorizedException((string) $response->getBody(), $response->getStatusCode());
         }
 
-        if ($response->getStatusCode() == 400) {
+        if ($response->getStatusCode() == 400 || $response->getStatusCode() == 409) {
             throw new FailedActionException((string) $response->getBody(), $response->getStatusCode());
         }
 
