@@ -370,7 +370,7 @@ class WorkItemsTest extends TestCase
         $this->expectException(FailedActionException::class);
 
         // When
-         $devops->updateWorkItem($this->workItem['id'], $this->project['id'], [
+        $devops->updateWorkItem($this->workItem['id'], $this->project['id'], [
             'title' => 'New Title',
         ]);
     }
