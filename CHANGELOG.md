@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - 2024-05-13
+### Added
+- Throw FailedActionException for HTTP 409 errors
+
+### Updated
+- Improved exception handling
+- Revised token refresh handling
+
 ## [2.0.0] - 2024-04-10
 ### Added
 - WIQL support
