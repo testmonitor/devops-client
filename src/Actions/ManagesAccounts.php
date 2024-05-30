@@ -27,6 +27,10 @@ trait ManagesAccounts
             ['query' => ['memberId' => $user->id]]
         );
 
+        if (empty($accounts)) {
+            return [];
+        }
+
         return $this->fromDevOpsAccounts($accounts);
     }
 
