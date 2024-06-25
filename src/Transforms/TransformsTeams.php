@@ -9,30 +9,28 @@ trait TransformsTeams
 {
     /**
      * @param array $teams
-     * @param string $projectId
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      *
      * @return \TestMonitor\DevOps\Resources\Team[]
      */
-    protected function fromDevOpsTeams($teams, string $projectId): array
+    protected function fromDevOpsTeams($teams): array
     {
         Validator::isArray($teams);
 
-        return array_map(function ($team) use ($projectId) {
-            return $this->fromDevOpsTeam($team, $projectId);
+        return array_map(function ($team) {
+            return $this->fromDevOpsTeam($team);
         }, $teams);
     }
 
     /**
      * @param array $team
-     * @param string $projectId
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      *
      * @return \TestMonitor\DevOps\Resources\Team
      */
-    protected function fromDevOpsTeam($team, string $projectId): Team
+    protected function fromDevOpsTeam($team): Team
     {
         Validator::keysExists($team, ['id', 'name']);
 
@@ -40,7 +38,7 @@ trait TransformsTeams
             'id' => $team['id'],
             'name' => $team['name'],
             'description' => $team['description'],
-            'path' => "{$projectId}\\{$team['name']}",
+            'path' => "{$team['projectName']}\\{$team['name']}",
         ]);
     }
 }
