@@ -27,7 +27,7 @@ trait ManagesAccounts
             ['query' => ['memberId' => $user->id]]
         );
 
-        if (empty($accounts) || $accounts === '[]') {
+        if ($accounts === '[]') {
             return [];
         }
 
