@@ -65,6 +65,30 @@ class AccountsTest extends TestCase
     }
 
     /** @test */
+    public function it_should_return_an_empty_list_of_accounts_there_are_no_available_organizations()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->profile)));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], '[]'));
+
+        // When
+        $accounts = $devops->accounts();
+
+        // Then
+        $this->assertIsArray($accounts);
+        $this->assertCount(0, $accounts);
+    }
+
+    /** @test */
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_accounts()
     {
         // Given
