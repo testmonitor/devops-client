@@ -65,7 +65,7 @@ class AccountsTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_an_empty_list_of_accounts_there_are_no_organizations()
+    public function it_should_return_an_empty_list_of_accounts_there_are_no_available_organizations()
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
