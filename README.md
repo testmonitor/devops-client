@@ -2,10 +2,8 @@
 
 [![Latest Stable Version](https://poser.pugx.org/testmonitor/devops-client/v/stable)](https://packagist.org/packages/testmonitor/devops-client)
 [![CircleCI](https://img.shields.io/circleci/project/github/testmonitor/devops-client.svg)](https://circleci.com/gh/testmonitor/devops-client)
-[![Travis Build](https://travis-ci.com/testmonitor/devops-client.svg?branch=master)](https://app.travis-ci.com/github/testmonitor/devops-client)
-[![Code Coverage](https://scrutinizer-ci.com/g/testmonitor/devops-client/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/testmonitor/devops-client/?branch=master)
-[![Code Quality](https://scrutinizer-ci.com/g/testmonitor/devops-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/testmonitor/devops-client/?branch=master)
 [![StyleCI](https://styleci.io/repos/223973950/shield)](https://styleci.io/repos/223973950)
+[![codecov](https://codecov.io/gh/testmonitor/devops-client/graph/badge.svg?token=OX609Y0IJY)](https://codecov.io/gh/testmonitor/devops-client)
 [![License](https://poser.pugx.org/testmonitor/devops-client/license)](https://packagist.org/packages/testmonitor/devops-client)
 
 This package provides a very basic, convenient, and unified wrapper for [Microsoft Azure DevOps](https://azure.microsoft.com/en-us/services/devops/).
