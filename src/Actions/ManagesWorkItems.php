@@ -38,7 +38,7 @@ trait ManagesWorkItems
      *
      * @return \TestMonitor\DevOps\Resources\WorkItem[]
      */
-    public function workitems(string $projectId, WIQL $query = null, int $limit = 50): array
+    public function workitems(string $projectId, ?WIQL $query = null, int $limit = 50): array
     {
         // Retrieve work items using WIQL
         $results = $this->post("{$projectId}/_apis/wit/wiql", [
