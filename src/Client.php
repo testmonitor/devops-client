@@ -70,8 +70,8 @@ class Client
     public function __construct(
         array $credentials,
         string $organization = '',
-        AccessToken $token = null,
-        Azure $provider = null
+        ?AccessToken $token = null,
+        ?Azure $provider = null
     ) {
         $this->token = $token;
         $this->organization = $organization;
