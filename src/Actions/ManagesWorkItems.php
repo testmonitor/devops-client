@@ -42,9 +42,11 @@ trait ManagesWorkItems
     {
         // Retrieve work items using WIQL
         $results = $this->post("{$projectId}/_apis/wit/wiql", [
+            'query' => [
+                '$top' => $limit,
+            ],
             'json' => [
                 'query' => $query instanceof WIQL ? $query->getQuery() : (new WIQL)->getQuery(),
-                '$top' => $limit,
             ],
         ]);
 
