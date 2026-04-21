@@ -44,6 +44,7 @@ trait ManagesWorkItems
         $results = $this->post("{$projectId}/_apis/wit/wiql", [
             'query' => [
                 '$top' => $limit,
+                'api-version' => $this->apiVersion,
             ],
             'json' => [
                 'query' => $query instanceof WIQL ? $query->getQuery() : (new WIQL)->getQuery(),
