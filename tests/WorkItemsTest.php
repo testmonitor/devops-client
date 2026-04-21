@@ -169,7 +169,7 @@ class WorkItemsTest extends TestCase
         $service->shouldReceive('request')
             ->once()
             ->withArgs(function ($verb, $url, $options) {
-                return $options['query'] === ['$top' => 50] &&
+                return $options['query']['$top'] === 50 &&
                     $options['json'] === [
                         'query' => (new WIQL)->where(Field::STATE, Operator::EQUALS, 'New')->getQuery(),
                     ];
