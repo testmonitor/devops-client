@@ -157,6 +157,10 @@ class WorkItemsTest extends TestCase
         $this->assertInstanceOf(WorkItem::class, $workItems->items()[0]);
         $this->assertEquals($this->workItem['id'], $workItems->items()[0]->id);
         $this->assertIsArray($workItems->items()[0]->toArray());
+        $this->assertEquals(1, $workItems->total());
+        $this->assertEquals(50, $workItems->perPage());
+        $this->assertEquals(0, $workItems->offset());
+        $this->assertEquals(1, $workItems->currentPage());
     }
 
     /** @test */
@@ -171,7 +175,7 @@ class WorkItemsTest extends TestCase
             ->once()
             ->withArgs(function ($verb, $url, $options) {
                 return isset($options['query']['$top'], $options['query']['api-version'], $options['json']) &&
-                    $options['query']['$top'] === 10000 &&
+                    $options['query']['$top'] === 1000 &&
                     $options['json'] === [
                         'query' => (new WIQL)->where(Field::STATE, Operator::EQUALS, 'New')->getQuery(),
                     ];
@@ -191,6 +195,39 @@ class WorkItemsTest extends TestCase
         $this->assertInstanceOf(WorkItem::class, $workItems->items()[0]);
         $this->assertEquals($this->workItem['id'], $workItems->items()[0]->id);
         $this->assertIsArray($workItems->items()[0]->toArray());
+        $this->assertEquals(1, $workItems->total());
+        $this->assertEquals(50, $workItems->perPage());
+        $this->assertEquals(0, $workItems->offset());
+        $this->assertEquals(1, $workItems->currentPage());
+    }
+
+    /** @test */
+    public function it_should_return_correct_pagination_metadata_for_a_work_item_list_with_a_given_limit_and_offset()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $ids = array_map(fn ($i) => ['id' => $i], range(1, 25));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['workItems' => $ids])));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->workItem]])));
+
+        // When
+        $workItems = $devops->workitems($this->project['id'], null, 10, 20);
+
+        // Then
+        $this->assertInstanceOf(LengthAwarePaginatedResponse::class, $workItems);
+        $this->assertEquals(25, $workItems->total());
+        $this->assertEquals(10, $workItems->perPage());
+        $this->assertEquals(20, $workItems->offset());
+        $this->assertEquals(3, $workItems->currentPage());
     }
 
     /** @test */

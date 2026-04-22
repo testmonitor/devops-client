@@ -35,7 +35,7 @@ trait ManagesWorkItems
      * @param \TestMonitor\DevOps\Builders\WIQL\WIQL|null $query
      * @param int $limit
      * @param int $offset
-     * @param int $wiqlLimit Keep this under 20.000 to avoid API errors.
+     * @param int $wiqlLimit Keep this under 20,000 to avoid API errors.
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      *
@@ -46,7 +46,7 @@ trait ManagesWorkItems
         ?WIQL $query = null,
         int $limit = 50,
         int $offset = 0,
-        int $wiqlLimit = 10000
+        int $wiqlLimit = 1000
     ): LengthAwarePaginatedResponse {
         // Retrieve all matching work item IDs via WIQL
         $results = $this->post("{$projectId}/_apis/wit/wiql", [

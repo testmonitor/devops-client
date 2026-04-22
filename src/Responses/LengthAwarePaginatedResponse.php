@@ -95,7 +95,7 @@ class LengthAwarePaginatedResponse
      */
     public function currentPage(): int
     {
-        if ($this->offset === 0) {
+        if ($this->offset === 0 || $this->perPage === 0) {
             return 1;
         }
 
