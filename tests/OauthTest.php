@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\AccessToken;
 use TestMonitor\DevOps\Exceptions\TokenExpiredException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 class OauthTest extends TestCase
 {
@@ -142,6 +143,24 @@ class OauthTest extends TestCase
     {
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg');
+
+        $this->expectException(UnauthorizedException::class);
+
+        // When
+        $devops->refreshToken();
+    }
+
+    /** @test */
+    public function it_should_throw_an_unauthorized_exception_when_the_provider_fails_to_refresh_a_token()
+    {
+        // Given
+        $dispatcher = Mockery::mock(\TheNetworg\OAuth2\Client\Provider\Azure::class);
+
+        $token = new AccessToken('12345', '567890', time() - 3600);
+
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $token, $dispatcher);
+
+        $dispatcher->shouldReceive('getAccessToken')->once()->andThrow(new IdentityProviderException('Unauthorized', 401, 'Unauthorized'));
 
         $this->expectException(UnauthorizedException::class);
 
