@@ -37,7 +37,6 @@ trait ManagesWorkItems
      * @param int $offset
      * @param int $wiqlLimit Keep this under 20.000 to avoid API errors.
      *
-     *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      * @return \TestMonitor\DevOps\Responses\LengthAwarePaginatedResponse
      */
