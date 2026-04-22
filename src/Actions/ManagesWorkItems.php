@@ -5,6 +5,7 @@ namespace TestMonitor\DevOps\Actions;
 use TestMonitor\DevOps\Builders\WIQL\WIQL;
 use TestMonitor\DevOps\Resources\WorkItem;
 use TestMonitor\DevOps\Transforms\TransformsWorkItems;
+use TestMonitor\DevOps\Responses\LengthAwarePaginatedResponse;
 
 trait ManagesWorkItems
 {
@@ -28,22 +29,29 @@ trait ManagesWorkItems
     }
 
     /**
-     * Get a list of work items.
+     * Get a paginated list of work items.
      *
      * @param string $projectId
-     * @param \TestMonitor\DevOps\Builders\WIQL $query
+     * @param \TestMonitor\DevOps\Builders\WIQL\WIQL|null $query
      * @param int $limit
+     * @param int $offset
+     * @param int $wiqlLimit Keep this under 20,000 to avoid API errors.
      *
      * @throws \TestMonitor\DevOps\Exceptions\InvalidDataException
      *
-     * @return \TestMonitor\DevOps\Resources\WorkItem[]
+     * @return \TestMonitor\DevOps\Responses\LengthAwarePaginatedResponse
      */
-    public function workitems(string $projectId, ?WIQL $query = null, int $limit = 50): array
-    {
-        // Retrieve work items using WIQL
+    public function workitems(
+        string $projectId,
+        ?WIQL $query = null,
+        int $limit = 50,
+        int $offset = 0,
+        int $wiqlLimit = 1000
+    ): LengthAwarePaginatedResponse {
+        // Retrieve all matching work item IDs via WIQL
         $results = $this->post("{$projectId}/_apis/wit/wiql", [
             'query' => [
-                '$top' => $limit,
+                '$top' => $wiqlLimit,
                 'api-version' => $this->apiVersion,
             ],
             'json' => [
@@ -51,24 +59,31 @@ trait ManagesWorkItems
             ],
         ]);
 
-        // Return an empty array when there are no results
-        if (empty($results['workItems'])) {
-            return [];
+        // Extract the IDs from the results
+        $ids = array_column($results['workItems'] ?? [], 'id');
+
+        // Slice the IDs for the requested page
+        $pageIds = array_slice($ids, $offset, $limit);
+
+        if (empty($pageIds)) {
+            return new LengthAwarePaginatedResponse([], count($ids), $limit, $offset);
         }
 
-        // Gather work item ID's
-        $ids = array_column($results['workItems'], 'id');
-
-        // Fetch work items by their ID's
+        // Fetch full work item details for this page only
         $response = $this->get("{$projectId}/_apis/wit/workitems/", [
             'query' => [
-                'ids' => implode(',', $ids),
+                'ids' => implode(',', $pageIds),
                 'api-version' => $this->apiVersion,
                 '$expand' => 'Links',
             ],
         ]);
 
-        return $this->fromDevOpsWorkItems($response['value']);
+        return new LengthAwarePaginatedResponse(
+            $this->fromDevOpsWorkItems($response['value']),
+            count($ids),
+            $limit,
+            $offset
+        );
     }
 
     /**
