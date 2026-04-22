@@ -23,7 +23,7 @@ class TeamsTest extends TestCase
     {
         parent::setUp();
 
-        $this->token = Mockery::mock('\TestMonitor\DevOps\AccessToken');
+        $this->token = Mockery::mock(\TestMonitor\DevOps\AccessToken::class);
         $this->token->shouldReceive('expired')->andReturnFalse();
 
         $this->team = ['id' => '1', 'name' => 'SuperTeam', 'description' => 'We are famous!', 'path' => 'super-path', 'projectName' => 'project'];
@@ -40,7 +40,7 @@ class TeamsTest extends TestCase
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $service->shouldReceive('request')
             ->once()
@@ -63,7 +63,7 @@ class TeamsTest extends TestCase
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $service->shouldReceive('request')
             ->once()
@@ -81,7 +81,7 @@ class TeamsTest extends TestCase
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $service->shouldReceive('request')
             ->once()
@@ -99,7 +99,7 @@ class TeamsTest extends TestCase
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $service->shouldReceive('request')
             ->once()
@@ -117,7 +117,7 @@ class TeamsTest extends TestCase
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $service->shouldReceive('request')
             ->once()
@@ -135,7 +135,7 @@ class TeamsTest extends TestCase
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $service->shouldReceive('request')
             ->once()
@@ -157,7 +157,7 @@ class TeamsTest extends TestCase
         // Given
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $service->shouldReceive('request')
             ->once()
