@@ -14,6 +14,7 @@ use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
+use TestMonitor\DevOps\Responses\LengthAwarePaginatedResponse;
 
 class WorkItemsTest extends TestCase
 {
@@ -141,7 +142,7 @@ class WorkItemsTest extends TestCase
 
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['workItems' => ['id' => $this->workItem['id']]])));
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['workItems' => [['id' => $this->workItem['id']]]])));
 
         $service->shouldReceive('request')
             ->once()
@@ -151,11 +152,11 @@ class WorkItemsTest extends TestCase
         $workItems = $devops->workitems($this->project['id']);
 
         // Then
-        $this->assertIsArray($workItems);
-        $this->assertCount(1, $workItems);
-        $this->assertInstanceOf(WorkItem::class, $workItems[0]);
-        $this->assertEquals($this->workItem['id'], $workItems[0]->id);
-        $this->assertIsArray($workItems[0]->toArray());
+        $this->assertInstanceOf(LengthAwarePaginatedResponse::class, $workItems);
+        $this->assertCount(1, $workItems->items());
+        $this->assertInstanceOf(WorkItem::class, $workItems->items()[0]);
+        $this->assertEquals($this->workItem['id'], $workItems->items()[0]->id);
+        $this->assertIsArray($workItems->items()[0]->toArray());
     }
 
     /** @test */
@@ -170,12 +171,12 @@ class WorkItemsTest extends TestCase
             ->once()
             ->withArgs(function ($verb, $url, $options) {
                 return isset($options['query']['$top'], $options['query']['api-version'], $options['json']) &&
-                    $options['query']['$top'] === 50 &&
+                    $options['query']['$top'] === 10000 &&
                     $options['json'] === [
                         'query' => (new WIQL)->where(Field::STATE, Operator::EQUALS, 'New')->getQuery(),
                     ];
             })
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['workItems' => ['id' => $this->workItem['id']]])));
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['workItems' => [['id' => $this->workItem['id']]]])));
 
         $service->shouldReceive('request')
             ->once()
@@ -185,11 +186,38 @@ class WorkItemsTest extends TestCase
         $workItems = $devops->workitems($this->project['id'], (new WIQL)->where(Field::STATE, Operator::EQUALS, 'New'));
 
         // Then
-        $this->assertIsArray($workItems);
-        $this->assertCount(1, $workItems);
-        $this->assertInstanceOf(WorkItem::class, $workItems[0]);
-        $this->assertEquals($this->workItem['id'], $workItems[0]->id);
-        $this->assertIsArray($workItems[0]->toArray());
+        $this->assertInstanceOf(LengthAwarePaginatedResponse::class, $workItems);
+        $this->assertCount(1, $workItems->items());
+        $this->assertInstanceOf(WorkItem::class, $workItems->items()[0]);
+        $this->assertEquals($this->workItem['id'], $workItems->items()[0]->id);
+        $this->assertIsArray($workItems->items()[0]->toArray());
+    }
+
+    /** @test */
+    public function it_should_use_a_custom_wiql_limit_when_fetching_work_items()
+    {
+        // Given
+        $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $this->token);
+
+        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->withArgs(function ($verb, $url, $options) {
+                return isset($options['query']['$top']) && $options['query']['$top'] === 5000;
+            })
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['workItems' => [['id' => $this->workItem['id']]]])));
+
+        $service->shouldReceive('request')
+            ->once()
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->workItem]])));
+
+        // When
+        $workItems = $devops->workitems($this->project['id'], null, 50, 0, 5000);
+
+        // Then
+        $this->assertInstanceOf(LengthAwarePaginatedResponse::class, $workItems);
+        $this->assertCount(1, $workItems->items());
     }
 
     /** @test */
@@ -208,8 +236,8 @@ class WorkItemsTest extends TestCase
         $workItems = $devops->workitems($this->project['id'], (new WIQL)->where(Field::STATE, Operator::EQUALS, 'Closed'));
 
         // Then
-        $this->assertIsArray($workItems);
-        $this->assertCount(0, $workItems);
+        $this->assertInstanceOf(LengthAwarePaginatedResponse::class, $workItems);
+        $this->assertCount(0, $workItems->items());
     }
 
     /** @test */
