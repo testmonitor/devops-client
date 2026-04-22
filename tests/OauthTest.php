@@ -36,7 +36,7 @@ class OauthTest extends TestCase
 
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         // When
         $expired = $devops->tokenExpired();
@@ -55,7 +55,7 @@ class OauthTest extends TestCase
 
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $token);
 
-        $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
+        $devops->setClient($service = Mockery::mock(\GuzzleHttp\Client::class));
 
         $this->expectException(TokenExpiredException::class);
 
@@ -67,7 +67,7 @@ class OauthTest extends TestCase
     public function it_should_provide_an_authorization_url()
     {
         // Given
-        $dispatcher = Mockery::mock('\TheNetworg\OAuth2\Client\Provider\Azure');
+        $dispatcher = Mockery::mock(\TheNetworg\OAuth2\Client\Provider\Azure::class);
         $state = 'somestate';
 
         $dispatcher->shouldReceive('getAuthorizationUrl')->with(['state' => $state])->andReturn('https://devops.authorization.url');
@@ -85,13 +85,9 @@ class OauthTest extends TestCase
     public function it_should_fetch_a_token()
     {
         // Given
-        $dispatcher = Mockery::mock('\TheNetworg\OAuth2\Client\Provider\Azure');
+        $dispatcher = Mockery::mock(\TheNetworg\OAuth2\Client\Provider\Azure::class);
 
         $newToken = new AccessToken('12345', '567890', time() + 3600);
-
-        $dispatcher->accessToken = $newToken->accessToken;
-        $dispatcher->refreshToken = $newToken->refreshToken;
-        $dispatcher->expiresIn = 3600;
 
         $code = 'somecode';
 
@@ -117,17 +113,13 @@ class OauthTest extends TestCase
     public function it_should_refresh_a_token()
     {
         // Given
-        $dispatcher = Mockery::mock('\TheNetworg\OAuth2\Client\Provider\Azure');
+        $dispatcher = Mockery::mock(\TheNetworg\OAuth2\Client\Provider\Azure::class);
 
         $oldToken = new AccessToken('12345', '567890', time() - 3600);
 
         $devops = new Client(['clientId' => 1, 'clientSecret' => 'secret', 'appId' => 1, 'redirectUrl' => 'none'], 'myorg', $oldToken, $dispatcher);
 
         $newToken = new AccessToken('23456', '678901', time() + 3600);
-
-        $dispatcher->accessToken = $newToken->accessToken;
-        $dispatcher->refreshToken = $newToken->refreshToken;
-        $dispatcher->expiresIn = 3600;
 
         $dispatcher->shouldReceive('getAccessToken')->once()->andReturn(new \League\OAuth2\Client\Token\AccessToken([
             'access_token' => $newToken->accessToken,
