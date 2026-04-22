@@ -90,13 +90,39 @@ The new token will be valid again for the next hour.
 
 ## Examples
 
-Get a list of Azure DevOps accounts:
+Retrieve a list of Azure DevOps accounts:
 
 ```php
 $accounts = $devops->accounts();
 ```
 
-Or creating a work item, for example (using a work item type 'Bug' and example project with id 12345):
+Retrieve a paginated list of work items for a project:
+
+```php
+$workItems = $devops->workitems('12345');
+
+foreach ($workItems->items() as $workItem) {
+    echo $workItem->title;
+}
+
+echo $workItems->total() . ' work items found';
+```
+
+Use a WIQL query to filter results, and control pagination and the number of results fetched:
+
+```php
+$query = (new \TestMonitor\DevOps\Builders\WIQL\WIQL)
+    ->where(\TestMonitor\DevOps\Builders\WIQL\Field::STATE, \TestMonitor\DevOps\Builders\WIQL\Operator::EQUALS, 'New');
+
+$workItems = $devops->workitems(
+    projectId: '12345',
+    query: $query,
+    limit: 25,
+    offset: 50
+);
+```
+
+Create a work item using a work item type 'Bug' and example project with id 12345:
 
 ```php
 $workItem = $devops->createWorkItem(new \TestMonitor\DevOps\Resources\WorkItem([
