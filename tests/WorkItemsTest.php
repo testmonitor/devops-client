@@ -210,6 +210,7 @@ class WorkItemsTest extends TestCase
         $devops->setClient($service = Mockery::mock('\GuzzleHttp\Client'));
 
         $ids = array_map(fn ($i) => ['id' => $i], range(1, 25));
+        $pageWorkItems = array_map(fn ($i) => array_merge($this->workItem, ['id' => $i]), range(21, 25));
 
         $service->shouldReceive('request')
             ->once()
@@ -217,13 +218,17 @@ class WorkItemsTest extends TestCase
 
         $service->shouldReceive('request')
             ->once()
-            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => [$this->workItem]])));
+            ->withArgs(function ($verb, $url, $options) {
+                return isset($options['query']['ids']) && $options['query']['ids'] === '21,22,23,24,25';
+            })
+            ->andReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['value' => $pageWorkItems])));
 
         // When
         $workItems = $devops->workitems($this->project['id'], null, 10, 20);
 
         // Then
         $this->assertInstanceOf(LengthAwarePaginatedResponse::class, $workItems);
+        $this->assertCount(5, $workItems->items());
         $this->assertEquals(25, $workItems->total());
         $this->assertEquals(10, $workItems->perPage());
         $this->assertEquals(20, $workItems->offset());
