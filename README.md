@@ -108,6 +108,8 @@ foreach ($workItems->items() as $workItem) {
 echo $workItems->total() . ' work items found';
 ```
 
+> **Note:** `total()` is capped by `$wiqlLimit` (default: 1000). Raise it if you expect more results.
+
 Use a WIQL query to filter results, and control pagination and the number of results fetched:
 
 ```php
