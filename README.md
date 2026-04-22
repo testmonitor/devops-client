@@ -120,7 +120,8 @@ $workItems = $devops->workitems(
     projectId: '12345',
     query: $query,
     limit: 25,
-    offset: 50
+    offset: 50,
+    wiqlLimit: 5000
 );
 ```
 
