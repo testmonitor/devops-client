@@ -29,6 +29,18 @@ class ValidatorTest extends TestCase
     }
 
     /** @test */
+    public function it_should_provide_the_invalid_data_through_the_exception()
+    {
+        // Given
+        try {
+            Validator::isInteger('a string');
+        } catch (InvalidDataException $exception) {
+            // Then
+            $this->assertEquals('a string', $exception->data());
+        }
+    }
+
+    /** @test */
     public function it_should_validate_a_string()
     {
         // When
