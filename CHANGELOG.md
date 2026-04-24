@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2026-04-24
+### Added
+- Additional tests for testing UnauthorizedException / invalid data
+
+### Updated
+- Added limit parameter to WIQL query endpoint
+- Added paginated response support for listing work items (replacing plain array)
+- Replaced Travis / Scrutinizer with Codecov
+- Replaced contributing.md with org version
+
 ## [2.2.0] - 2024-07-01
 ### Updated
 - Fixed submitting area path when creating work items
