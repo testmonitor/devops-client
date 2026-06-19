@@ -72,6 +72,7 @@ jobs:
                   command: |
                       mkdir -p ./logs/phpunit
                       vendor/bin/phpunit -d memory_limit=1G --coverage-clover logs/phpunit/coverage.xml --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
+
             - codecov/upload:
                   report_type: coverage
                   disable_search: true
@@ -80,6 +81,7 @@ jobs:
                   report_type: test_results
                   disable_search: true
                   files: logs/phpunit/junit.xml
+
             - store_artifacts:
                   path: ./logs/phpunit
                   destination: phpunit
