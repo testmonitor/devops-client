@@ -6,6 +6,7 @@ use Mockery;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Builders\WIQL\WIQL;
 use TestMonitor\DevOps\Resources\WorkItem;
 use TestMonitor\DevOps\Builders\WIQL\Field;
@@ -57,7 +58,7 @@ class WorkItemsTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_work_item()
     {
         // Given
@@ -78,7 +79,7 @@ class WorkItemsTest extends TestCase
         $this->assertIsArray($workItem->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_work_item()
     {
         // Given
@@ -96,7 +97,7 @@ class WorkItemsTest extends TestCase
         $devops->workitem($this->workItem['id'], $this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_work_item()
     {
         // Given
@@ -114,7 +115,7 @@ class WorkItemsTest extends TestCase
         $devops->workitem($this->workItem['id'], $this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_work_item()
     {
         // Given
@@ -132,7 +133,7 @@ class WorkItemsTest extends TestCase
         $devops->workitem($this->workItem['id'], $this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_list_of_work_items()
     {
         // Given
@@ -163,7 +164,7 @@ class WorkItemsTest extends TestCase
         $this->assertEquals(1, $workItems->currentPage());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_search_through_a_list_of_work_items_using_wiql()
     {
         // Given
@@ -201,7 +202,7 @@ class WorkItemsTest extends TestCase
         $this->assertEquals(1, $workItems->currentPage());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_correct_pagination_metadata_for_a_work_item_list_with_a_given_limit_and_offset()
     {
         // Given
@@ -235,7 +236,7 @@ class WorkItemsTest extends TestCase
         $this->assertEquals(3, $workItems->currentPage());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_use_a_custom_wiql_limit_when_fetching_work_items()
     {
         // Given
@@ -262,7 +263,7 @@ class WorkItemsTest extends TestCase
         $this->assertCount(1, $workItems->items());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_an_empty_work_item_list_when_there_are_no_results()
     {
         // Given
@@ -282,7 +283,7 @@ class WorkItemsTest extends TestCase
         $this->assertCount(0, $workItems->items());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_work_items()
     {
         // Given
@@ -300,7 +301,7 @@ class WorkItemsTest extends TestCase
         $devops->workitems($this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_work_items()
     {
         // Given
@@ -318,7 +319,7 @@ class WorkItemsTest extends TestCase
         $devops->workitems($this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_work_items()
     {
         // Given
@@ -336,7 +337,7 @@ class WorkItemsTest extends TestCase
         $devops->workitems($this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_create_a_work_item()
     {
         // Given
@@ -361,7 +362,7 @@ class WorkItemsTest extends TestCase
         $this->assertEquals($this->workItem['id'], $workItem->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_creating_an_invalid_work_item()
     {
         // Given
@@ -384,7 +385,7 @@ class WorkItemsTest extends TestCase
         ]), 'bogus');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_update_a_work_item()
     {
         // Given
@@ -406,7 +407,7 @@ class WorkItemsTest extends TestCase
         $this->assertEquals($this->workItem['id'], $workItem->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_updating_an_invalid_work_item()
     {
         // Given
@@ -426,7 +427,7 @@ class WorkItemsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_a_conflict_exception_while_updating_a_work_item()
     {
         // Given

@@ -6,6 +6,7 @@ use Mockery;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\AccessToken;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Exceptions\TokenExpiredException;
 use TestMonitor\DevOps\Exceptions\UnauthorizedException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -17,7 +18,7 @@ class OauthTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_create_a_token()
     {
         // When
@@ -29,7 +30,7 @@ class OauthTest extends TestCase
         $this->assertFalse($token->expired());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_detect_an_expired_token()
     {
         // Given
@@ -48,7 +49,7 @@ class OauthTest extends TestCase
         $this->assertTrue($expired);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_not_provide_a_client_with_an_expired_token()
     {
         // Given
@@ -64,7 +65,7 @@ class OauthTest extends TestCase
         $devops = $devops->accounts();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_provide_an_authorization_url()
     {
         // Given
@@ -82,7 +83,7 @@ class OauthTest extends TestCase
         $this->assertEquals('https://devops.authorization.url', $url);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_fetch_a_token()
     {
         // Given
@@ -110,7 +111,7 @@ class OauthTest extends TestCase
         $this->assertEquals($token->refreshToken, $newToken->refreshToken);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_refresh_a_token()
     {
         // Given
@@ -138,7 +139,7 @@ class OauthTest extends TestCase
         $this->assertEquals($token->refreshToken, $newToken->refreshToken);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_not_refresh_a_token_without_a_refresh_token()
     {
         // Given
@@ -150,7 +151,7 @@ class OauthTest extends TestCase
         $devops->refreshToken();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_an_unauthorized_exception_when_the_provider_fails_to_refresh_a_token()
     {
         // Given
@@ -168,7 +169,7 @@ class OauthTest extends TestCase
         $devops->refreshToken();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_not_provide_a_client_without_a_token()
     {
         // Given

@@ -3,11 +3,12 @@
 namespace TestMonitor\DevOps\Tests;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Support\Arrays;
 
 class ArraysTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_should_flatten_an_associative_array()
     {
         // Given
@@ -33,7 +34,7 @@ class ArraysTest extends TestCase
         ], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_flatten_an_non_associative_array()
     {
         // Given
@@ -47,7 +48,7 @@ class ArraysTest extends TestCase
         $this->assertEquals([1, 2, 3], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_unique_items_for_an_associative_array()
     {
         // Given

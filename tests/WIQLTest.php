@@ -3,6 +3,7 @@
 namespace TestMonitor\DevOps\Tests;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Builders\WIQL\WIQL;
 use TestMonitor\DevOps\Builders\WIQL\Field;
 use TestMonitor\DevOps\Builders\WIQL\Macro;
@@ -10,7 +11,7 @@ use TestMonitor\DevOps\Builders\WIQL\Operator;
 
 class WIQLTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_should_return_a_wiql_builder()
     {
         // Given
@@ -22,7 +23,7 @@ class WIQLTest extends TestCase
         $this->assertInstanceOf(WIQL::class, $builder);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query()
     {
         // Given
@@ -35,7 +36,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_a_specified_select()
     {
         // Given
@@ -48,7 +49,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id], [System.Title] FROM WorkItems', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_a_specified_source()
     {
         // Given
@@ -61,7 +62,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM workItemLinks', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_a_single_condition()
     {
         // Given
@@ -74,7 +75,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = \'Issue\'', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_an_or_condition()
     {
         // Given
@@ -94,7 +95,7 @@ class WIQLTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_multiple_conditions()
     {
         // Given
@@ -113,7 +114,7 @@ class WIQLTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_a_condition_that_uses_multiple_values()
     {
         // Given
@@ -126,7 +127,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems WHERE [System.State] In (\'New\', \'Active\')', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_nested_conditions()
     {
         // Given
@@ -148,7 +149,7 @@ class WIQLTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_plain_and_nested_conditions()
     {
         // Given
@@ -171,7 +172,7 @@ class WIQLTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_using_the_project_macro()
     {
         // Given
@@ -184,7 +185,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems WHERE [System.TeamProject] = @Project', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_using_the_user_macro()
     {
         // Given
@@ -197,7 +198,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems WHERE [System.AssignedTo] = @Me', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_sorting_criteria()
     {
         // Given
@@ -210,7 +211,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems  ORDER BY [System.State] DESC', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_multiple_sorting_criteria()
     {
         // Given
@@ -226,7 +227,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems  ORDER BY [System.State] DESC, [System.CreatedDate] ASC', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_using_a_conditionable_query_that_evaluates_as_true()
     {
         // Given
@@ -241,7 +242,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems WHERE [Microsoft.VSTS.Common.Priority] = \'1\'', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_using_a_conditionable_query_that_evaluates_as_false()
     {
         // Given
@@ -256,7 +257,7 @@ class WIQLTest extends TestCase
         $this->assertEquals('SELECT [System.Id] FROM WorkItems', $query);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_generate_a_wiql_query_with_multiple_conditions_and_sorting_criteria()
     {
         // Given

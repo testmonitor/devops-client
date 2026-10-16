@@ -6,6 +6,7 @@ use Mockery;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Resources\Webhook;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
@@ -53,7 +54,7 @@ class WebhooksTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_list_of_webhooks()
     {
         // Given
@@ -76,7 +77,7 @@ class WebhooksTest extends TestCase
         $this->assertIsArray($webhooks[0]->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_webhooks()
     {
         // Given
@@ -94,7 +95,7 @@ class WebhooksTest extends TestCase
         $devops->webhooks('workitem.updated');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_webhooks()
     {
         // Given
@@ -112,7 +113,7 @@ class WebhooksTest extends TestCase
         $devops->webhooks('workitem.updated');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_webhooks()
     {
         // Given
@@ -130,7 +131,7 @@ class WebhooksTest extends TestCase
         $devops->webhooks('workitem.updated');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_webhooks()
     {
         // Given
@@ -148,7 +149,7 @@ class WebhooksTest extends TestCase
         $devops->webhooks('workitem.updated');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_create_a_webhook()
     {
         // Given
@@ -175,7 +176,7 @@ class WebhooksTest extends TestCase
         $this->assertEquals($this->webhook['id'], $webhook->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_creating_an_invalid_webhook()
     {
         // Given
@@ -198,7 +199,7 @@ class WebhooksTest extends TestCase
         ]));
     }
 
-    /** @test */
+    #[Test]
     public function it_should_delete_a_webhook()
     {
         // Given
@@ -217,7 +218,7 @@ class WebhooksTest extends TestCase
         $this->assertTrue($response);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_deleting_an_unknown_webhook()
     {
         // Given

@@ -6,6 +6,7 @@ use Mockery;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Resources\Attachment;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
@@ -39,7 +40,7 @@ class AttachmentsTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_add_an_attachment_to_a_work_item()
     {
         // Given
@@ -66,7 +67,7 @@ class AttachmentsTest extends TestCase
         $this->assertIsArray($attachment->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_adding_an_attachment_to_a_work_item()
     {
         // Given
@@ -84,7 +85,7 @@ class AttachmentsTest extends TestCase
         $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_adding_an_attachment_to_a_work_item()
     {
         // Given
@@ -102,7 +103,7 @@ class AttachmentsTest extends TestCase
         $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_adding_an_attachment_to_a_work_item()
     {
         // Given
@@ -120,7 +121,7 @@ class AttachmentsTest extends TestCase
         $devops->addAttachment(__DIR__ . '/files/logo.png', $this->workItem['id'], $this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_adding_an_attachment_to_a_work_item()
     {
         // Given

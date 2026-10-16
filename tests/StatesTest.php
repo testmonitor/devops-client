@@ -6,6 +6,7 @@ use Mockery;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Resources\State;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
@@ -33,7 +34,7 @@ class StatesTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_list_of_states()
     {
         // Given
@@ -67,7 +68,7 @@ class StatesTest extends TestCase
         $this->assertIsArray($states[0]->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_states()
     {
         // Given
@@ -85,7 +86,7 @@ class StatesTest extends TestCase
         $devops->states(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_states()
     {
         // Given
@@ -103,7 +104,7 @@ class StatesTest extends TestCase
         $devops->states(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_states()
     {
         // Given
@@ -121,7 +122,7 @@ class StatesTest extends TestCase
         $devops->states(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_states()
     {
         // Given
@@ -139,7 +140,7 @@ class StatesTest extends TestCase
         $devops->states(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_states()
     {
         // Given
@@ -161,7 +162,7 @@ class StatesTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_list_of_states_for_a_work_item_type()
     {
         // Given
@@ -184,7 +185,7 @@ class StatesTest extends TestCase
         $this->assertIsArray($states[0]->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
@@ -202,7 +203,7 @@ class StatesTest extends TestCase
         $devops->statesForWorkItem(1, 'Bug');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
@@ -220,7 +221,7 @@ class StatesTest extends TestCase
         $devops->statesForWorkItem(1, 'Bug');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
@@ -238,7 +239,7 @@ class StatesTest extends TestCase
         $devops->statesForWorkItem(1, 'Bug');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given
@@ -256,7 +257,7 @@ class StatesTest extends TestCase
         $devops->statesForWorkItem(1, 'Bug');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_states_for_a_work_item_type()
     {
         // Given

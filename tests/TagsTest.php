@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Resources\Tag;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
 use TestMonitor\DevOps\Exceptions\ValidationException;
 use TestMonitor\DevOps\Exceptions\FailedActionException;
@@ -34,7 +35,7 @@ class TagsTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_list_of_tags()
     {
         // Given
@@ -57,7 +58,7 @@ class TagsTest extends TestCase
         $this->assertIsArray($tags[0]->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_tags()
     {
         // Given
@@ -75,7 +76,7 @@ class TagsTest extends TestCase
         $devops->tags(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_tags()
     {
         // Given
@@ -93,7 +94,7 @@ class TagsTest extends TestCase
         $devops->tags(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_tags()
     {
         // Given
@@ -111,7 +112,7 @@ class TagsTest extends TestCase
         $devops->tags(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_tags()
     {
         // Given
@@ -129,7 +130,7 @@ class TagsTest extends TestCase
         $devops->tags(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_tags()
     {
         // Given
@@ -151,7 +152,7 @@ class TagsTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_tags()
     {
         // Given

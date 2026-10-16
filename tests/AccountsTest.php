@@ -6,6 +6,7 @@ use Mockery;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Resources\Account;
 use TestMonitor\DevOps\Resources\Profile;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
@@ -37,7 +38,7 @@ class AccountsTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_list_of_accounts()
     {
         // Given
@@ -64,7 +65,7 @@ class AccountsTest extends TestCase
         $this->assertIsArray($accounts[0]->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_an_empty_list_of_accounts_there_are_no_available_organizations()
     {
         // Given
@@ -88,7 +89,7 @@ class AccountsTest extends TestCase
         $this->assertCount(0, $accounts);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_accounts()
     {
         // Given
@@ -106,7 +107,7 @@ class AccountsTest extends TestCase
         $devops->accounts();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_accounts()
     {
         // Given
@@ -124,7 +125,7 @@ class AccountsTest extends TestCase
         $devops->accounts();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_accounts()
     {
         // Given
@@ -142,7 +143,7 @@ class AccountsTest extends TestCase
         $devops->accounts();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_accounts()
     {
         // Given
@@ -160,7 +161,7 @@ class AccountsTest extends TestCase
         $devops->accounts();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_the_profile_of_the_current_authenticated_user()
     {
         // Given
@@ -181,7 +182,7 @@ class AccountsTest extends TestCase
         $this->assertEquals($this->profile['id'], $profile->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given
@@ -199,7 +200,7 @@ class AccountsTest extends TestCase
         $devops->myself();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given
@@ -217,7 +218,7 @@ class AccountsTest extends TestCase
         $devops->myself();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given
@@ -235,7 +236,7 @@ class AccountsTest extends TestCase
         $devops->myself();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_the_profile_of_the_current_authenticated_user()
     {
         // Given

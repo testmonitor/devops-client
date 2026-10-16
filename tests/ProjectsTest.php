@@ -6,6 +6,7 @@ use Mockery;
 use GuzzleHttp\Psr7\Response;
 use TestMonitor\DevOps\Client;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Resources\Project;
 use TestMonitor\DevOps\Exceptions\Exception;
 use TestMonitor\DevOps\Exceptions\NotFoundException;
@@ -34,7 +35,7 @@ class ProjectsTest extends TestCase
         Mockery::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_project()
     {
         // Given
@@ -55,7 +56,7 @@ class ProjectsTest extends TestCase
         $this->assertIsArray($project->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_project()
     {
         // Given
@@ -73,7 +74,7 @@ class ProjectsTest extends TestCase
         $devops->project($this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_project()
     {
         // Given
@@ -91,7 +92,7 @@ class ProjectsTest extends TestCase
         $devops->project($this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_project()
     {
         // Given
@@ -109,7 +110,7 @@ class ProjectsTest extends TestCase
         $devops->project($this->project['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_list_of_projects()
     {
         // Given
@@ -132,7 +133,7 @@ class ProjectsTest extends TestCase
         $this->assertIsArray($projects[0]->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_failed_action_exception_when_client_receives_bad_request_while_getting_a_list_of_projects()
     {
         // Given
@@ -150,7 +151,7 @@ class ProjectsTest extends TestCase
         $devops->projects();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_notfound_exception_when_client_receives_not_found_while_getting_a_list_of_projects()
     {
         // Given
@@ -168,7 +169,7 @@ class ProjectsTest extends TestCase
         $devops->projects();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_unauthorized_exception_when_client_lacks_authorization_for_getting_a_list_of_projects()
     {
         // Given
@@ -186,7 +187,7 @@ class ProjectsTest extends TestCase
         $devops->projects();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_validation_exception_when_client_provides_invalid_data_while_getting_a_list_of_projects()
     {
         // Given
@@ -204,7 +205,7 @@ class ProjectsTest extends TestCase
         $devops->projects();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_an_error_message_when_client_provides_invalid_data_while_getting_a_list_of_projects()
     {
         // Given
@@ -226,7 +227,7 @@ class ProjectsTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_a_generic_exception_when_client_suddenly_becomes_a_teapot_while_getting_a_list_of_projects()
     {
         // Given

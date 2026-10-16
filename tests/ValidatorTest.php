@@ -4,11 +4,12 @@ namespace TestMonitor\DevOps\Tests;
 
 use PHPUnit\Framework\TestCase;
 use TestMonitor\DevOps\Validator;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\DevOps\Exceptions\InvalidDataException;
 
 class ValidatorTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_should_validate_an_integer()
     {
         // When
@@ -18,7 +19,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_an_exception_when_validating_an_integer_using_a_string()
     {
         // Given
@@ -28,7 +29,7 @@ class ValidatorTest extends TestCase
         Validator::isInteger('a string');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_provide_the_invalid_data_through_the_exception()
     {
         // Given
@@ -40,7 +41,7 @@ class ValidatorTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_should_validate_a_string()
     {
         // When
@@ -50,7 +51,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_an_exception_when_validating_a_string_using_a_integer()
     {
         // Given
@@ -60,7 +61,7 @@ class ValidatorTest extends TestCase
         Validator::isString(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_validate_an_array()
     {
         // When
@@ -70,7 +71,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_an_exception_when_validating_an_array_using_a_string()
     {
         // Given
@@ -80,7 +81,7 @@ class ValidatorTest extends TestCase
         Validator::isArray('a string');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_validate_an_array_having_a_specified_key()
     {
         // When
@@ -90,7 +91,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_an_exception_when_validating_an_array_without_the_requested_key()
     {
         // Given
@@ -100,7 +101,7 @@ class ValidatorTest extends TestCase
         Validator::keyExists(['id' => 1], 'name');
     }
 
-    /** @test */
+    #[Test]
     public function it_should_validate_an_array_having_a_multiple_keys()
     {
         // When
@@ -110,7 +111,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_an_exception_when_validating_an_array_without_all_of_the_requested_keys()
     {
         // Given
@@ -120,7 +121,7 @@ class ValidatorTest extends TestCase
         Validator::keysExists(['id' => 1], ['name', 'description']);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_throw_an_exception_when_validating_an_array_without_any_of_the_requested_keys()
     {
         // Given
